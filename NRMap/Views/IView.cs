@@ -11,6 +11,7 @@ namespace NRMap.Views
     {
         void AddListener(IController controller);
 
+        string TextCoord { set; }
 
        // public void AddLayer(Object layer);
     }

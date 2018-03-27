@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NRMap.Controllers
 {
-    interface IController
+    public interface IController
     {
     }
 }

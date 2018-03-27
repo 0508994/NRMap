@@ -16,7 +16,13 @@ namespace NRMap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            MapForm mapForm = new MapForm();
+
+            NRMap.Controllers.IController controller = new NRMap.Controllers.Controller(mapForm);
+
+            Application.Run(mapForm);
+            
         }
     }
 }

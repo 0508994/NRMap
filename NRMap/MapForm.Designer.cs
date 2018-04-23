@@ -34,7 +34,9 @@
             this.cbShowUTM = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapBox
@@ -43,7 +45,7 @@
             this.mapBox.BackColor = System.Drawing.Color.White;
             this.mapBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.mapBox.FineZoomFactor = 10D;
-            this.mapBox.Location = new System.Drawing.Point(6, 35);
+            this.mapBox.Location = new System.Drawing.Point(6, 32);
             this.mapBox.MapQueryMode = SharpMap.Forms.MapBox.MapQueryType.LayerByIndex;
             this.mapBox.Name = "mapBox";
             this.mapBox.QueryGrowFactor = 5F;
@@ -91,12 +93,23 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Location = new System.Drawing.Point(651, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(273, 487);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controls";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(33, 32);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MapForm
             // 
@@ -113,6 +126,7 @@
             this.Text = "Map";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -124,6 +138,7 @@
         private System.Windows.Forms.CheckBox cbShowUTM;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
     }
 }
 

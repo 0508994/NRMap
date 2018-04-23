@@ -10,8 +10,7 @@ namespace NRMap.Controllers
     {
         bool BShowUTM { set; }
 
-
-
         void OnMapMouseMoved(GeoAPI.Geometries.Coordinate point);
+        void OnAddRoadsLayer();
     }
 }

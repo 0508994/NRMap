@@ -14,6 +14,8 @@ namespace NRMap
         [STAThread]
         static void Main()
         {
+            // https://gis.stackexchange.com/questions/48949/epsg-3857-or-4326-for-googlemaps-openstreetmap-and-leaflet
+            // https://stackoverflow.com/questions/9595681/creating-new-layers-in-sharpmap
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

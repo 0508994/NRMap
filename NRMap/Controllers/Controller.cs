@@ -6,29 +6,52 @@ using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharpMap.Layers;
+using SharpMap.Styles;
 
 namespace NRMap.Controllers
 {
+    // Class containing all application logic
     public class Controller : IController
     {
-        private IView _view;
-        private bool _bShowUTM;
+        #region Constants
+        // PostgreSQL database connection String
+        private const string _connStr = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=milan;Database=srb";
+        // Name of the geometry field of each table
+        private const string _geomName = "geom";
+        // Name of the id field of each table
+        private const string _idName = "gid";
+        // Name of the table for the roads layer
+        private const string _roadsTable = "public.\"gis.osm_roads_free_1\"";
+        #endregion
 
+        private IView _view;
+        // show real or UTM coordinates indicator
+        private bool _bShowUTM;
+        // Constructor for setting view and attaching this controller as it's listener
         public Controller(IView view)
         {
             _view = view;
             _view.AddListener(this);
         }
-
+        // _bShowUTM property
         public bool BShowUTM
         {
             set
             {
                 _bShowUTM = value;
             }
+        }
+
+        // Set coordinate transformation and reverse coordinate transformation of a given layer
+        // This is done for combatibility with background OpenMaps layer.
+        private void SetCtAndRct(Layer layer)
+        {
+            CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
+            layer.CoordinateTransformation =
+                cFact.CreateFromCoordinateSystems(GeographicCoordinateSystem.WGS84, ProjectedCoordinateSystem.WebMercator);
+            layer.ReverseCoordinateTransformation =
+                cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
         }
 
         // GIS RV09 - Slide 4
@@ -57,9 +80,10 @@ namespace NRMap.Controllers
                 new AxisInfo("Norh", AxisOrientationEnum.North));
         }
 
+        // GIS RV09 - Slide 6
         public void OnMapMouseMoved(Coordinate point)
         {
-             if (_bShowUTM)
+            if (_bShowUTM)
             {
                 IProjectedCoordinateSystem utmProj = CreateUtmProjection(34);
                 IGeographicCoordinateSystem geoCS = utmProj.GeographicCoordinateSystem;
@@ -74,7 +98,40 @@ namespace NRMap.Controllers
                 point.Y = coordsUTM[1];
             }
 
-            _view.TextCoord = "X: " + point.X + "   Y: " + point.Y;
+            _view.TextCoord = "X: " + point.X + "  Y: " + point.Y;
+        }
+
+        // Testing database conn - will modify with parameters and stuff later
+        public void OnAddRoadsLayer()
+        {
+            try
+            {
+                VectorLayer roadsLayer = new VectorLayer("Roads")
+                {
+                    DataSource = new SharpMap.Data.Providers.PostGIS(_connStr, _roadsTable, _geomName, _idName)
+                };
+                SetCtAndRct(roadsLayer);
+
+                // style used to render primary roads { fclass = primary }
+                VectorStyle primaryRoadStyle = new VectorStyle()
+                {
+                    Line = System.Drawing.Pens.Blue
+                };
+
+                Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>
+                {
+                    { "primary", primaryRoadStyle }
+                };
+
+                roadsLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
+                        styles, null);
+
+                _view.AddLayer(roadsLayer);
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.ToString());
+            }
         }
 
     }

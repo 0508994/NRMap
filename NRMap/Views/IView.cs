@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NRMap.Controllers;
+using SharpMap.Layers;
 
 namespace NRMap.Views
 {
@@ -13,8 +14,6 @@ namespace NRMap.Views
 
         string TextCoord { set; }
 
-       // public void AddLayer(Object layer);
+        void AddLayer(ILayer layer);
     }
-
-    
 }

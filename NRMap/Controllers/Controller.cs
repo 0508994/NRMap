@@ -16,17 +16,6 @@ namespace NRMap.Controllers
     /// </summary>
     public class Controller : IController
     {
-        #region Constants
-        // PostgreSQL database connection String
-        private const string _connStr = "Server=127.0.0.1;Port=5432;User Id=postgres;Password=milan;Database=srb";
-        // Name of the geometry field of each table
-        private const string _geomName = "geom";
-        // Name of the id field of each table
-        private const string _idName = "gid";
-        // Name of the table for the roads layer
-        private const string _roadsTable = "public.\"gis.osm_roads_free_1\"";
-        #endregion
-
         private IView _view;
         // show real or UTM coordinates indicator
         private bool _bShowUTM;
@@ -109,12 +98,12 @@ namespace NRMap.Controllers
             try
             {
                 SharpMap.Data.Providers.PostGIS postGisProv = new
-                    SharpMap.Data.Providers.PostGIS(_connStr, _roadsTable, _geomName, _idName)
+                    SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.roadsTable, Constants.geomName, Constants.idName)
                 {
                     DefinitionQuery = "fclass = \'primary\' or fclass = \'secondary\' or fclass = \'motorway_link\'"
                 };
 
-                VectorLayer roadsLayer = new VectorLayer("Roads")
+                VectorLayer roadsLayer = new VectorLayer(Constants.roadsLayerName)
                 {
                     DataSource = postGisProv
                 };
@@ -123,7 +112,7 @@ namespace NRMap.Controllers
                 // style used to render primary roads { fclass = primary }
                 VectorStyle primaryRoadStyle = new VectorStyle()
                 {
-                    Line = System.Drawing.Pens.Blue
+                    Line = System.Drawing.Pens.Red
                 };
 
                 // style used for rendering secondary roads { fclass = secondary }
@@ -148,7 +137,7 @@ namespace NRMap.Controllers
                 roadsLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
                         styles, null);
 
-                LabelLayer roadLabel = new LabelLayer("RoadLabels")
+                LabelLayer roadLabel = new LabelLayer(Constants.roadsLabelName)
                 {
                     DataSource = roadsLayer.DataSource,
                     Enabled = true,
@@ -165,5 +154,11 @@ namespace NRMap.Controllers
             }
         }
 
+        // Remove the selected layer
+        public void OnRemoveLayer(string layerName)
+        {
+            ILayer toRemove = _view.GetLayerByName(layerName);
+            _view.RemoveLayer(toRemove);
+        }
     }
 }

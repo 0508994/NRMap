@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NRMap.Controllers
+﻿namespace NRMap.Controllers
 {
     public interface IController
     {
@@ -12,5 +6,7 @@ namespace NRMap.Controllers
 
         void OnMapMouseMoved(GeoAPI.Geometries.Coordinate point);
         void OnAddRoadsLayer();
+
+        void OnRemoveLayer(string layerName);
     }
 }

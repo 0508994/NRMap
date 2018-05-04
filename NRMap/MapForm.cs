@@ -15,7 +15,7 @@ namespace NRMap
         public MapForm()
         {
             InitializeComponent();
-            AddTiledLayerAsBackground();
+            //AddTiledLayerAsBackground();
         }
 
         public void AddListener(IController controller)
@@ -47,9 +47,9 @@ namespace NRMap
         {
             mapBox.Map.Layers.Add(layer);
 
-            //mapBox.Map.ZoomToExtents();
-            //mapBox.Refresh();
-            //mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
+            mapBox.Map.ZoomToExtents();
+            mapBox.Refresh();
+            mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
         }
 
         #region Events

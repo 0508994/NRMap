@@ -11,7 +11,9 @@ using SharpMap.Styles;
 
 namespace NRMap.Controllers
 {
-    // Class containing all application logic
+    /// <summary>
+    /// Class containing all aplication logic
+    /// </summary>
     public class Controller : IController
     {
         #region Constants
@@ -106,9 +108,15 @@ namespace NRMap.Controllers
         {
             try
             {
+                SharpMap.Data.Providers.PostGIS postGisProv = new
+                    SharpMap.Data.Providers.PostGIS(_connStr, _roadsTable, _geomName, _idName)
+                {
+                    DefinitionQuery = "fclass = \'primary\' or fclass = \'secondary\' or fclass = \'motorway_link\'"
+                };
+
                 VectorLayer roadsLayer = new VectorLayer("Roads")
                 {
-                    DataSource = new SharpMap.Data.Providers.PostGIS(_connStr, _roadsTable, _geomName, _idName)
+                    DataSource = postGisProv
                 };
                 SetCtAndRct(roadsLayer);
 
@@ -118,15 +126,38 @@ namespace NRMap.Controllers
                     Line = System.Drawing.Pens.Blue
                 };
 
+                // style used for rendering secondary roads { fclass = secondary }
+                VectorStyle secondaryRoadStyle = new VectorStyle()
+                {
+                    Line = System.Drawing.Pens.Orange
+                };
+
+                // style used for rendering motorway links { fclass = motorway_link }
+                VectorStyle motorwayLinkStyle = new VectorStyle()
+                {
+                    Line = System.Drawing.Pens.Olive
+                };
+
                 Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>
                 {
-                    { "primary", primaryRoadStyle }
+                    { "primary", primaryRoadStyle },
+                    { "secondary", secondaryRoadStyle },
+                    { "motorway_link", motorwayLinkStyle }
                 };
 
                 roadsLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
                         styles, null);
 
+                LabelLayer roadLabel = new LabelLayer("RoadLabels")
+                {
+                    DataSource = roadsLayer.DataSource,
+                    Enabled = true,
+                    LabelColumn = "name"
+                };
+                SetCtAndRct(roadLabel);
+
                 _view.AddLayer(roadsLayer);
+                _view.AddLayer(roadLabel);
             }
             catch (Exception e)
             {

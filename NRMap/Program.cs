@@ -18,7 +18,7 @@ namespace NRMap
 
             MapForm mapForm = new MapForm();
 
-            NRMap.Controllers.IController controller = new NRMap.Controllers.Controller(mapForm);
+            Controllers.IController controller = new Controllers.Controller(mapForm);
 
             Application.Run(mapForm);
             

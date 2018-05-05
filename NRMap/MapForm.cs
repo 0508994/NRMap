@@ -6,13 +6,16 @@ using SharpMap.Layers;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using System.Data;
+using GeoAPI.Geometries;
 using Npgsql;
+using System.Collections.Generic;
 
 namespace NRMap
 {
     public partial class MapForm : Form, IView
     {
         private IController _controller;
+        private Coordinate _lastClick = null;
 
         public MapForm()
         {
@@ -42,19 +45,33 @@ namespace NRMap
         {
             set
             {
-                textCoord.Text = value;
+                _lbTextCoord.Text = value;
             }
         }
 
-        // maybe add last ? ..
+        public DataTable DataGridView
+        {
+            // never used
+            get
+            {
+                return (DataTable)_dataGridView.DataSource;
+            }
+            set
+            {
+                _dataGridView.Columns.Clear();
+                _dataGridView.DataSource = value;
+            }
+
+        }
+
         public void AddTiledLayerAsBackground()
         {      
             _mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
                 new BruTile.Web.OsmTileSource(), "OSM"));
 
-            _mapBox.Map.ZoomToExtents();
-            _mapBox.Refresh();
-            _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
+            //_mapBox.Map.ZoomToExtents();
+            //_mapBox.Refresh();
+            //_mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
         }
 
         public void AddLayer(ILayer layer)
@@ -80,7 +97,7 @@ namespace NRMap
         }
 
         #region Events
-        private void MapBox_MouseMove(GeoAPI.Geometries.Coordinate worldPos, MouseEventArgs imagePos)
+        private void MapBox_MouseMove(Coordinate worldPos, MouseEventArgs imagePos)
         {
             _controller.OnMapMouseMoved(worldPos);
         }
@@ -90,9 +107,35 @@ namespace NRMap
             _controller.BShowUTM = _cbShowUTM.Checked;
         }
 
+        private void MapBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                _lastClick = _mapBox.Map.ImageToWorld(new System.Drawing.PointF(e.X, e.Y));
+                //_mapBox.Map.Center.X = p.X;
+                //_mapBox.Map.Center.Y = p.Y;
+                //_mapBox.Refresh();
+                _tbBBoxMp.Text = _lastClick.X + "  " + _lastClick.Y;
+                _controller.OnMapMouseClick(_lastClick);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
         private void BtnAddRoads_Click(object sender, EventArgs e)
         {
-            _controller.OnAddRoadsLayer();
+            try
+            {
+                _controller.OnAddRoadsLayer();
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                MessageBox.Show("Couldn't connect to the database.");
+            }
+            
         }
 
         private void BtnRmRoads_Click(object sender, EventArgs e)
@@ -100,10 +143,40 @@ namespace NRMap
             _controller.OnRemoveLayer(Constants.roadsLayerName);
             _controller.OnRemoveLayer(Constants.roadsLabelName);
         }
+
+        // TODO:
+        private void BtnGetBBox_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double bboxH = Double.Parse(_tbBBoxH.Text);
+                double bboxW = Double.Parse(_tbBBoxW.Text);
+
+                double[] topLeft = { _lastClick.X, _lastClick.Y };
+                //double[] bottomleft = { _lastClick.X, _lastClick.Y + bboxH };
+                //double[] topRight = { _lastClick.X + bboxW, _lastClick.Y };
+                double[] bottomRight = { _lastClick.X + bboxW, _lastClick.Y + bboxH};
+
+                IList<double[]> coordinates = new List<double[]>()
+                {
+                    { topLeft },
+                    //{ bottomleft },
+                    //{ topRight },
+                    { bottomRight }
+                };
+                _controller.OnReturnBBoxFeatures(coordinates);
+
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                MessageBox.Show("Invalid input!");
+            }
+            
+        }
         #endregion
 
         // https://github.com/SharpMap/SharpMapV2/blob/master/SharpMap.Data.Providers/PostGisProvider/PostGisProvider.cs
-        // TODO: probaj da preradis ovo da stavlja podatke direktno u ds
         private void Button1_Click(object sender, EventArgs e)
         {
             SharpMap.Data.Providers.PostGIS postGisProv = new
@@ -136,6 +209,13 @@ namespace NRMap
 
 
 
+        }
+
+        // djubre vraca sve iz podatke iz sloja
+        private void _mapBox_MapQueried(SharpMap.Data.FeatureDataTable data)
+        {
+            //_dataGridView.DataSource = data;
+            //MessageBox.Show(data.Rows.Count.ToString());
         }
 
 

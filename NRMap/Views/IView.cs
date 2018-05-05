@@ -1,5 +1,6 @@
 ﻿using NRMap.Controllers;
 using SharpMap.Layers;
+using System.Data;
 
 namespace NRMap.Views
 {
@@ -8,6 +9,7 @@ namespace NRMap.Views
         void AddListener(IController controller);
 
         string TextCoord { set; }
+        DataTable DataGridView { set; }
 
         void AddLayer(ILayer layer);
         ILayer GetLayerByName(string layerName);

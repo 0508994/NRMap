@@ -20,7 +20,7 @@ namespace NRMap
         public MapForm()
         {
             InitializeComponent();
-            //AddTiledLayerAsBackground();
+            AddTiledLayerAsBackground();
 
             DataTable dt = new DataTable();
             dt.Columns.Add("c1");
@@ -65,9 +65,9 @@ namespace NRMap
         }
 
         public void AddTiledLayerAsBackground()
-        {      
-            _mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
-                new BruTile.Web.OsmTileSource(), "OSM"));
+        {
+            //_mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
+            //    new BruTile.Web.OsmTileSource(), "OSM"));
 
             //_mapBox.Map.ZoomToExtents();
             //_mapBox.Refresh();
@@ -80,7 +80,7 @@ namespace NRMap
 
             _mapBox.Map.ZoomToExtents();
             _mapBox.Refresh();
-            _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
+            //_mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
         }
 
         // get layer by name (set in constructor - Controller)
@@ -105,6 +105,14 @@ namespace NRMap
         private void CbShowUTM_CheckedChanged(object sender, EventArgs e)
         {
             _controller.BShowUTM = _cbShowUTM.Checked;
+        }
+
+        private void CbActivatePan_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_cbActivatePan.Checked)
+                _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
+            else
+                _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.None;
         }
 
         private void MapBox_MouseClick(object sender, MouseEventArgs e)
@@ -144,7 +152,6 @@ namespace NRMap
             _controller.OnRemoveLayer(Constants.roadsLabelName);
         }
 
-        // TODO:
         private void BtnGetBBox_Click(object sender, EventArgs e)
         {
             try
@@ -218,6 +225,6 @@ namespace NRMap
             //MessageBox.Show(data.Rows.Count.ToString());
         }
 
-
+  
     }
 }

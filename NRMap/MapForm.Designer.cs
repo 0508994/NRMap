@@ -34,29 +34,30 @@
             this._cbShowUTM = new System.Windows.Forms.CheckBox();
             this._gb1 = new System.Windows.Forms.GroupBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
+            this._btnGetBBox = new System.Windows.Forms.Button();
+            this._lbBBoxTL = new System.Windows.Forms.Label();
+            this._tbBBoxW = new System.Windows.Forms.TextBox();
+            this._tbBBoxH = new System.Windows.Forms.TextBox();
+            this._tbBBoxMp = new System.Windows.Forms.TextBox();
+            this._lbActiveLayer = new System.Windows.Forms.Label();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.cbNR = new System.Windows.Forms.CheckBox();
+            this._cbRoads = new System.Windows.Forms.CheckBox();
+            this._gb3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this._btnRmRoads = new System.Windows.Forms.Button();
             this._btnAddRoads = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this._dataGridView = new System.Windows.Forms.DataGridView();
-            this._gb3 = new System.Windows.Forms.GroupBox();
-            this._cbRoads = new System.Windows.Forms.CheckBox();
-            this.cbNR = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this._gb4 = new System.Windows.Forms.GroupBox();
-            this._lbActiveLayer = new System.Windows.Forms.Label();
-            this._tbBBoxMp = new System.Windows.Forms.TextBox();
-            this._tbBBoxH = new System.Windows.Forms.TextBox();
-            this._tbBBoxW = new System.Windows.Forms.TextBox();
-            this._lbBBoxTL = new System.Windows.Forms.Label();
-            this._btnGetBBox = new System.Windows.Forms.Button();
+            this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
             this._gb3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
             this._gb4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +86,7 @@
             // _lbTextCoord
             // 
             this._lbTextCoord.AutoSize = true;
-            this._lbTextCoord.Location = new System.Drawing.Point(188, 16);
+            this._lbTextCoord.Location = new System.Drawing.Point(179, 10);
             this._lbTextCoord.Name = "_lbTextCoord";
             this._lbTextCoord.Size = new System.Drawing.Size(34, 13);
             this._lbTextCoord.TabIndex = 1;
@@ -94,7 +95,7 @@
             // _cbShowUTM
             // 
             this._cbShowUTM.AutoSize = true;
-            this._cbShowUTM.Location = new System.Drawing.Point(123, 15);
+            this._cbShowUTM.Location = new System.Drawing.Point(123, 9);
             this._cbShowUTM.Name = "_cbShowUTM";
             this._cbShowUTM.Size = new System.Drawing.Size(50, 17);
             this._cbShowUTM.TabIndex = 2;
@@ -104,6 +105,7 @@
             // 
             // _gb1
             // 
+            this._gb1.Controls.Add(this._cbActivatePan);
             this._gb1.Controls.Add(this._mapBox);
             this._gb1.Controls.Add(this._cbShowUTM);
             this._gb1.Controls.Add(this._lbTextCoord);
@@ -138,6 +140,111 @@
             this._gb2.TabIndex = 4;
             this._gb2.TabStop = false;
             this._gb2.Text = "Controls";
+            // 
+            // _btnGetBBox
+            // 
+            this._btnGetBBox.Location = new System.Drawing.Point(6, 242);
+            this._btnGetBBox.Name = "_btnGetBBox";
+            this._btnGetBBox.Size = new System.Drawing.Size(214, 23);
+            this._btnGetBBox.TabIndex = 1;
+            this._btnGetBBox.Text = "Get BBox Features";
+            this._btnGetBBox.UseVisualStyleBackColor = true;
+            this._btnGetBBox.Click += new System.EventHandler(this.BtnGetBBox_Click);
+            // 
+            // _lbBBoxTL
+            // 
+            this._lbBBoxTL.AutoSize = true;
+            this._lbBBoxTL.Location = new System.Drawing.Point(75, 174);
+            this._lbBBoxTL.Name = "_lbBBoxTL";
+            this._lbBBoxTL.Size = new System.Drawing.Size(75, 13);
+            this._lbBBoxTL.TabIndex = 15;
+            this._lbBBoxTL.Text = "BBox Top Left\r\n";
+            this._lbBBoxTL.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // _tbBBoxW
+            // 
+            this._tbBBoxW.Location = new System.Drawing.Point(122, 216);
+            this._tbBBoxW.Name = "_tbBBoxW";
+            this._tbBBoxW.Size = new System.Drawing.Size(98, 20);
+            this._tbBBoxW.TabIndex = 14;
+            this._tbBBoxW.Text = "Width ( m )";
+            // 
+            // _tbBBoxH
+            // 
+            this._tbBBoxH.Location = new System.Drawing.Point(6, 216);
+            this._tbBBoxH.Name = "_tbBBoxH";
+            this._tbBBoxH.Size = new System.Drawing.Size(98, 20);
+            this._tbBBoxH.TabIndex = 13;
+            this._tbBBoxH.Text = "Height ( m )";
+            // 
+            // _tbBBoxMp
+            // 
+            this._tbBBoxMp.Location = new System.Drawing.Point(6, 190);
+            this._tbBBoxMp.Name = "_tbBBoxMp";
+            this._tbBBoxMp.ReadOnly = true;
+            this._tbBBoxMp.Size = new System.Drawing.Size(214, 20);
+            this._tbBBoxMp.TabIndex = 12;
+            this._tbBBoxMp.Text = "Click on the map...";
+            // 
+            // _lbActiveLayer
+            // 
+            this._lbActiveLayer.AutoSize = true;
+            this._lbActiveLayer.Location = new System.Drawing.Point(75, 123);
+            this._lbActiveLayer.Name = "_lbActiveLayer";
+            this._lbActiveLayer.Size = new System.Drawing.Size(66, 13);
+            this._lbActiveLayer.TabIndex = 11;
+            this._lbActiveLayer.Text = "Active Layer";
+            this._lbActiveLayer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(138, 139);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(48, 17);
+            this.checkBox3.TabIndex = 10;
+            this.checkBox3.Text = "TBD";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // cbNR
+            // 
+            this.cbNR.AutoSize = true;
+            this.cbNR.Location = new System.Drawing.Point(90, 139);
+            this.cbNR.Name = "cbNR";
+            this.cbNR.Size = new System.Drawing.Size(42, 17);
+            this.cbNR.TabIndex = 9;
+            this.cbNR.Text = "NR";
+            this.cbNR.UseVisualStyleBackColor = true;
+            // 
+            // _cbRoads
+            // 
+            this._cbRoads.AutoSize = true;
+            this._cbRoads.Location = new System.Drawing.Point(27, 139);
+            this._cbRoads.Name = "_cbRoads";
+            this._cbRoads.Size = new System.Drawing.Size(57, 17);
+            this._cbRoads.TabIndex = 8;
+            this._cbRoads.Text = "Roads";
+            this._cbRoads.UseVisualStyleBackColor = true;
+            // 
+            // _gb3
+            // 
+            this._gb3.Controls.Add(this.button1);
+            this._gb3.Location = new System.Drawing.Point(6, 283);
+            this._gb3.Name = "_gb3";
+            this._gb3.Size = new System.Drawing.Size(214, 220);
+            this._gb3.TabIndex = 7;
+            this._gb3.TabStop = false;
+            this._gb3.Text = "Basic Operations";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(84, 163);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // button7
             // 
@@ -195,16 +302,6 @@
             this._btnAddRoads.UseVisualStyleBackColor = true;
             this._btnAddRoads.Click += new System.EventHandler(this.BtnAddRoads_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(84, 163);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // _dataGridView
             // 
             this._dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -212,46 +309,6 @@
             this._dataGridView.Name = "_dataGridView";
             this._dataGridView.Size = new System.Drawing.Size(286, 494);
             this._dataGridView.TabIndex = 5;
-            // 
-            // _gb3
-            // 
-            this._gb3.Controls.Add(this.button1);
-            this._gb3.Location = new System.Drawing.Point(6, 283);
-            this._gb3.Name = "_gb3";
-            this._gb3.Size = new System.Drawing.Size(214, 220);
-            this._gb3.TabIndex = 7;
-            this._gb3.TabStop = false;
-            this._gb3.Text = "Basic Operations";
-            // 
-            // _cbRoads
-            // 
-            this._cbRoads.AutoSize = true;
-            this._cbRoads.Location = new System.Drawing.Point(27, 139);
-            this._cbRoads.Name = "_cbRoads";
-            this._cbRoads.Size = new System.Drawing.Size(57, 17);
-            this._cbRoads.TabIndex = 8;
-            this._cbRoads.Text = "Roads";
-            this._cbRoads.UseVisualStyleBackColor = true;
-            // 
-            // cbNR
-            // 
-            this.cbNR.AutoSize = true;
-            this.cbNR.Location = new System.Drawing.Point(90, 139);
-            this.cbNR.Name = "cbNR";
-            this.cbNR.Size = new System.Drawing.Size(42, 17);
-            this.cbNR.TabIndex = 9;
-            this.cbNR.Text = "NR";
-            this.cbNR.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(138, 139);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(48, 17);
-            this.checkBox3.TabIndex = 10;
-            this.checkBox3.Text = "TBD";
-            this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // _gb4
             // 
@@ -263,60 +320,16 @@
             this._gb4.TabStop = false;
             this._gb4.Text = "Features";
             // 
-            // _lbActiveLayer
+            // _cbActivatePan
             // 
-            this._lbActiveLayer.AutoSize = true;
-            this._lbActiveLayer.Location = new System.Drawing.Point(75, 123);
-            this._lbActiveLayer.Name = "_lbActiveLayer";
-            this._lbActiveLayer.Size = new System.Drawing.Size(66, 13);
-            this._lbActiveLayer.TabIndex = 11;
-            this._lbActiveLayer.Text = "Active Layer";
-            this._lbActiveLayer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // _tbBBoxMp
-            // 
-            this._tbBBoxMp.Location = new System.Drawing.Point(6, 190);
-            this._tbBBoxMp.Name = "_tbBBoxMp";
-            this._tbBBoxMp.ReadOnly = true;
-            this._tbBBoxMp.Size = new System.Drawing.Size(214, 20);
-            this._tbBBoxMp.TabIndex = 12;
-            this._tbBBoxMp.Text = "Click on the map...";
-            // 
-            // _tbBBoxH
-            // 
-            this._tbBBoxH.Location = new System.Drawing.Point(6, 216);
-            this._tbBBoxH.Name = "_tbBBoxH";
-            this._tbBBoxH.Size = new System.Drawing.Size(98, 20);
-            this._tbBBoxH.TabIndex = 13;
-            this._tbBBoxH.Text = "Height ( m )";
-            // 
-            // _tbBBoxW
-            // 
-            this._tbBBoxW.Location = new System.Drawing.Point(122, 216);
-            this._tbBBoxW.Name = "_tbBBoxW";
-            this._tbBBoxW.Size = new System.Drawing.Size(98, 20);
-            this._tbBBoxW.TabIndex = 14;
-            this._tbBBoxW.Text = "Width ( m )";
-            // 
-            // _lbBBoxTL
-            // 
-            this._lbBBoxTL.AutoSize = true;
-            this._lbBBoxTL.Location = new System.Drawing.Point(75, 174);
-            this._lbBBoxTL.Name = "_lbBBoxTL";
-            this._lbBBoxTL.Size = new System.Drawing.Size(75, 13);
-            this._lbBBoxTL.TabIndex = 15;
-            this._lbBBoxTL.Text = "BBox Top Left\r\n";
-            this._lbBBoxTL.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // _btnGetBBox
-            // 
-            this._btnGetBBox.Location = new System.Drawing.Point(6, 242);
-            this._btnGetBBox.Name = "_btnGetBBox";
-            this._btnGetBBox.Size = new System.Drawing.Size(214, 23);
-            this._btnGetBBox.TabIndex = 1;
-            this._btnGetBBox.Text = "Get BBox Features";
-            this._btnGetBBox.UseVisualStyleBackColor = true;
-            this._btnGetBBox.Click += new System.EventHandler(this.BtnGetBBox_Click);
+            this._cbActivatePan.AutoSize = true;
+            this._cbActivatePan.Location = new System.Drawing.Point(50, 9);
+            this._cbActivatePan.Name = "_cbActivatePan";
+            this._cbActivatePan.Size = new System.Drawing.Size(45, 17);
+            this._cbActivatePan.TabIndex = 3;
+            this._cbActivatePan.Text = "Pan";
+            this._cbActivatePan.UseVisualStyleBackColor = true;
+            this._cbActivatePan.CheckedChanged += new System.EventHandler(this.CbActivatePan_CheckedChanged);
             // 
             // MapForm
             // 
@@ -336,8 +349,8 @@
             this._gb1.PerformLayout();
             this._gb2.ResumeLayout(false);
             this._gb2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).EndInit();
             this._gb3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).EndInit();
             this._gb4.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -369,6 +382,7 @@
         private System.Windows.Forms.TextBox _tbBBoxMp;
         private System.Windows.Forms.Label _lbBBoxTL;
         private System.Windows.Forms.Button _btnGetBBox;
+        private System.Windows.Forms.CheckBox _cbActivatePan;
     }
 }
 

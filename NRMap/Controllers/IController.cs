@@ -9,6 +9,7 @@ namespace NRMap.Controllers
         void OnMapMouseMoved(GeoAPI.Geometries.Coordinate point);
         void OnMapMouseClick(GeoAPI.Geometries.Coordinate point);
         void OnAddRoadsLayer();
+        void OnAddNRLayer();
 
         void OnRemoveLayer(string layerName);
 

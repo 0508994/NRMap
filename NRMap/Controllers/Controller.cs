@@ -4,11 +4,9 @@ using GeoAPI.Geometries;
 using NRMap.Views;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
-using System;
 using System.Collections.Generic;
 using SharpMap.Layers;
 using SharpMap.Styles;
-using NetTopologySuite.Geometries;
 
 namespace NRMap.Controllers
 {
@@ -17,17 +15,12 @@ namespace NRMap.Controllers
     /// </summary>
     public class Controller : IController
     {
+        #region Attributes and Properties
         private IView _view;
         // show real or UTM coordinates indicator
         private bool _bShowUTM;
         // Active Query layer
-        private string _queryLayer = Constants.roadsTable; // PROMENI POSLE
-        // Constructor for setting view and attaching this controller as it's listener
-        public Controller(IView view)
-        {
-            _view = view;
-            _view.AddListener(this);
-        }
+        private string _queryLayer = "public.buildings"; // TODO:
         // _bShowUTM property
         public bool BShowUTM
         {
@@ -36,9 +29,16 @@ namespace NRMap.Controllers
                 _bShowUTM = value;
             }
         }
+        #endregion
 
-        // Set coordinate transformation and reverse coordinate transformation of a given layer
-        // This is done for combatibility with background OpenMaps layer.
+        public Controller(IView view)
+        {
+            _view = view;
+            _view.AddListener(this);
+        }
+
+        #region Private Methods
+        // Set coordinate transformation and reverse coordinate transformation of a given layer (Only if using BruTile background layer)
         private void SetCtAndRct(Layer layer)
         {
             CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
@@ -51,7 +51,7 @@ namespace NRMap.Controllers
             //layer.CoordinateTransformation.MathTransform.Transform(a);
         }
 
-        // Coordinate transformation WebMercator <-> WGS84 (based on reverse param)
+        // Coordinate transformation WebMercator <-> WGS84 (based on reverse param) (Only if using BruTile background layer)
         private IList<double[]> TransformCords(IList<double[]> coordinates, bool reverse=true)
         {
             CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
@@ -90,7 +90,40 @@ namespace NRMap.Controllers
                 new AxisInfo("Norh", AxisOrientationEnum.North));
         }
 
-        // GIS RV09 - Slide 6
+        // Get thematic features whose geoms intersect with the passed envelope
+        private void GetEnvelopeIntersections(Envelope envelope)
+        {
+            SharpMap.Data.Providers.PostGIS postGisProv = new
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
+
+            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+            postGisProv.Open();
+            postGisProv.ExecuteIntersectionQuery(envelope, fds);
+            postGisProv.Close();
+
+            //System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
+
+            _view.DataGridView = fds.Tables[0];
+        }
+
+        // NPGSQL EXCEPTION - BAD GEOMETRY FORMATING IN THE RESULTING QUERY && TABLE NAMES MUST BE ALTERED NOT TO CONTAIN ""
+        private void GetGeometryIntersections(IGeometry geometry)
+        {
+            SharpMap.Data.Providers.PostGIS postGisProv = new
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
+
+            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+            postGisProv.Open();
+            postGisProv.ExecuteIntersectionQuery(geometry, fds);
+            postGisProv.Close();
+
+            //System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
+
+            _view.DataGridView = fds.Tables[0];
+        }
+        #endregion
+
+        #region Event Handling
         public void OnMapMouseMoved(Coordinate point)
         {
             if (_bShowUTM)
@@ -111,7 +144,6 @@ namespace NRMap.Controllers
             _view.TextCoord = "X: " + point.X + "  Y: " + point.Y;
         }
 
-        // Add Roads and its labels
         public void OnAddRoadsLayer()
         {
             SharpMap.Data.Providers.PostGIS postGisProv = new
@@ -160,68 +192,51 @@ namespace NRMap.Controllers
                 LabelColumn = "name"
             };
 
-            SetCtAndRct(roadsLayer);
-            SetCtAndRct(roadLabel);
+            //SetCtAndRct(roadsLayer);
+            //SetCtAndRct(roadLabel);
 
             _view.AddLayer(roadsLayer);
             _view.AddLayer(roadLabel);
         }
+
+        public void OnAddNRLayer()
+        {
+
+        }
         
-        // Remove the selected layer
         public void OnRemoveLayer(string layerName)
         {
             ILayer toRemove = _view.GetLayerByName(layerName);
             _view.RemoveLayer(toRemove);
         }
 
-        // Display the features that intersect
         public void OnMapMouseClick(Coordinate point)
         {
-            CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
-            ICoordinateTransformation cTrans = cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
-            point = cTrans.MathTransform.Transform(point);
+            //CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
+            //ICoordinateTransformation cTrans = cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
+            //point = cTrans.MathTransform.Transform(point);
 
-            IGeometryFactory gFact = new GeometryFactory(new PrecisionModel(), 4326);
-            IGeometry geom = gFact.CreatePoint(point);
+            //IGeometryFactory gFact = new GeometryFactory();
+            //IGeometry geom = gFact.CreatePoint(point);
 
-            GetInteresectionFeatures(geom);
+            Envelope geom = new Envelope(point);
+
+            GetEnvelopeIntersections(geom);
 
         }
 
         public void OnReturnBBoxFeatures(IList<double[]> bounds)
         {
-            bounds = TransformCords(bounds);
+            //bounds = TransformCords(bounds);
             double[] topLeft = bounds[0];
             double[] bottomRight = bounds[1];
 
             Envelope bbox = new Envelope(topLeft[0], bottomRight[0], topLeft[1], bottomRight[1]);
 
-            SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
-
-            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
-            postGisProv.Open();
-            postGisProv.ExecuteIntersectionQuery(bbox, fds);
-            postGisProv.Close();
-
-            System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
-
-            _view.DataGridView = fds.Tables[0];
+            GetEnvelopeIntersections(bbox);
         }
+        #endregion
 
-        private void GetInteresectionFeatures(IGeometry geom)
-        {
-            SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
 
-            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
-            postGisProv.Open();
-            postGisProv.ExecuteIntersectionQuery(geom, fds);
-            postGisProv.Close();
-
-            System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
-
-            _view.DataGridView = fds.Tables[0];
-        }
     }
 }

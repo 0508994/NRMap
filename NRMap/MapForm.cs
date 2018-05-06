@@ -181,10 +181,22 @@ namespace NRMap
         {
             try
             {
-
-
                 _controller.OnRemoveLayer(Constants.roadsLayerName);
                 _controller.OnRemoveLayer(Constants.roadsLabelName);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show("Couldn't remove the layer.");
+            }
+        }
+
+        private void BtnRmNR_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnRemoveLayer(Constants.nrLayerName);
+                _controller.OnRemoveLayer(Constants.nrLabelName);
             }
             catch (Exception exception)
             {

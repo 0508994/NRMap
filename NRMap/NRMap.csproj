@@ -168,6 +168,11 @@
   <ItemGroup>
     <Content Include="GdalConfiguration.vb" />
     <Content Include="GdalNativeConfiguration.vb" />
+    <None Include="Resources\cliff.png" />
+    <None Include="Resources\beach.png" />
+    <None Include="Resources\water.png" />
+    <None Include="Resources\peak.png" />
+    <None Include="Resources\tree.png" />
     <None Include="Images\cave.png" />
     <None Include="Resources\cave.bmp" />
   </ItemGroup>

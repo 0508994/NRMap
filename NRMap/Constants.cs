@@ -27,7 +27,7 @@
         public const string roadsLabelName = "RoadsLabels";
 
         public const string nrLayerName = "NaturalResources";
-        public const string nrLabelname = "NaturalResourcesLabel";
+        public const string nrLabelName = "NaturalResourcesLabel";
 
         public const string landuseLayerName = "Landuse";
         public const string landuseLabelName = "LanduseLabel";

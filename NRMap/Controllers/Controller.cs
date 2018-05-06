@@ -183,12 +183,12 @@ namespace NRMap.Controllers
                 Line = System.Drawing.Pens.Olive
             };
 
-            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>
-                {
-                    { "primary", primaryRoadStyle },
-                    { "secondary", secondaryRoadStyle },
-                    { "motorway_link", motorwayLinkStyle }
-                };
+            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>()
+            {
+                { "primary", primaryRoadStyle },
+                { "secondary", secondaryRoadStyle },
+                { "motorway_link", motorwayLinkStyle }
+            };
 
             roadsLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
                     styles, null);
@@ -207,35 +207,46 @@ namespace NRMap.Controllers
             _view.AddLayer(roadLabel);
         }
 
-        public void OnAddNRLayer()
+        public void OnAddNRLayer(string query=null)
         {
             SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.nrTable, Constants.geomName, Constants.idName);
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.nrTable, Constants.geomName, Constants.idName)
+            {
+                DefinitionQuery = query
+            };
 
             VectorLayer nrLayer = new VectorLayer(Constants.nrLayerName)
             {
                 DataSource = postGisProv
             };
 
-            // style used to render cave entrances { fclass = cave_entrance }
-            VectorStyle caveEntranceStyle = new VectorStyle()
+            // Define style for each fclass of natural resource
+            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>()
             {
-                Symbol = Properties.Resources.cave
+                { "cave_entrance", new VectorStyle() { Symbol = Properties.Resources.cave } },
+                { "tree", new VectorStyle() { Symbol = Properties.Resources.tree, SymbolScale = 0.8f } },
+                { "peak", new VectorStyle() { Symbol = Properties.Resources.peak, SymbolScale = 0.7f } },
+                { "spring", new VectorStyle() { Symbol = Properties.Resources.water } },
+                { "beach", new VectorStyle() { Symbol = Properties.Resources.beach } },
+                { "cliff", new VectorStyle() { Symbol = Properties.Resources.cliff  } }
             };
-
-
-
-            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>
-                {
-                    { "cave_entrance", caveEntranceStyle }
-                };
 
             nrLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
                     styles, null);
 
+            LabelLayer nrLabel = new LabelLayer(Constants.nrLabelName)
+            {
+                DataSource = nrLayer.DataSource,
+                Enabled = true,
+                LabelColumn = "name",
+                MaxVisible = 0.3f
+            };
 
+            //SetCtAndRct(nrLayer);
+            //SetCtAndRct(nrLabel);
 
             _view.AddLayer(nrLayer);
+            _view.AddLayer(nrLabel);
         }
 
         public void OnAddLanduseLayer()

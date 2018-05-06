@@ -44,8 +44,6 @@
             this._tbBBoxH = new System.Windows.Forms.TextBox();
             this._tbBBoxMp = new System.Windows.Forms.TextBox();
             this._lbActiveLayer = new System.Windows.Forms.Label();
-            this._gb3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this._btnRmLanduse = new System.Windows.Forms.Button();
             this._btnAddLanduse = new System.Windows.Forms.Button();
             this._btnRmNR = new System.Windows.Forms.Button();
@@ -53,12 +51,11 @@
             this._btnRmRoads = new System.Windows.Forms.Button();
             this._btnAddRoads = new System.Windows.Forms.Button();
             this._dataGridView = new System.Windows.Forms.DataGridView();
-            this._gb4 = new System.Windows.Forms.GroupBox();
+            this._gb3 = new System.Windows.Forms.GroupBox();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
-            this._gb3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
-            this._gb4.SuspendLayout();
+            this._gb3.SuspendLayout();
             this.SuspendLayout();
             // 
             // _mapBox
@@ -138,7 +135,6 @@
             this._gb2.Controls.Add(this._tbBBoxH);
             this._gb2.Controls.Add(this._tbBBoxMp);
             this._gb2.Controls.Add(this._lbActiveLayer);
-            this._gb2.Controls.Add(this._gb3);
             this._gb2.Controls.Add(this._btnRmLanduse);
             this._gb2.Controls.Add(this._btnAddLanduse);
             this._gb2.Controls.Add(this._btnRmNR);
@@ -243,26 +239,6 @@
             this._lbActiveLayer.Text = "Active Layer";
             this._lbActiveLayer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // _gb3
-            // 
-            this._gb3.Controls.Add(this.button1);
-            this._gb3.Location = new System.Drawing.Point(17, 350);
-            this._gb3.Name = "_gb3";
-            this._gb3.Size = new System.Drawing.Size(203, 153);
-            this._gb3.TabIndex = 7;
-            this._gb3.TabStop = false;
-            this._gb3.Text = "Basic Operations";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(84, 163);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // _btnRmLanduse
             // 
             this._btnRmLanduse.Location = new System.Drawing.Point(126, 85);
@@ -289,6 +265,7 @@
             this._btnRmNR.TabIndex = 4;
             this._btnRmNR.Text = "Remove NR";
             this._btnRmNR.UseVisualStyleBackColor = true;
+            this._btnRmNR.Click += new System.EventHandler(this.BtnRmNR_Click);
             // 
             // _btnAddNR
             // 
@@ -328,22 +305,22 @@
             this._dataGridView.Size = new System.Drawing.Size(286, 494);
             this._dataGridView.TabIndex = 5;
             // 
-            // _gb4
+            // _gb3
             // 
-            this._gb4.Controls.Add(this._dataGridView);
-            this._gb4.Location = new System.Drawing.Point(470, 12);
-            this._gb4.Name = "_gb4";
-            this._gb4.Size = new System.Drawing.Size(298, 519);
-            this._gb4.TabIndex = 8;
-            this._gb4.TabStop = false;
-            this._gb4.Text = "Features";
+            this._gb3.Controls.Add(this._dataGridView);
+            this._gb3.Location = new System.Drawing.Point(470, 12);
+            this._gb3.Name = "_gb3";
+            this._gb3.Size = new System.Drawing.Size(298, 519);
+            this._gb3.TabIndex = 8;
+            this._gb3.TabStop = false;
+            this._gb3.Text = "Features";
             // 
             // MapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 541);
-            this.Controls.Add(this._gb4);
+            this.Controls.Add(this._gb3);
             this.Controls.Add(this._gb2);
             this.Controls.Add(this._gb1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -356,9 +333,8 @@
             this._gb1.PerformLayout();
             this._gb2.ResumeLayout(false);
             this._gb2.PerformLayout();
-            this._gb3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).EndInit();
-            this._gb4.ResumeLayout(false);
+            this._gb3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -370,7 +346,6 @@
         private System.Windows.Forms.CheckBox _cbShowUTM;
         private System.Windows.Forms.GroupBox _gb1;
         private System.Windows.Forms.GroupBox _gb2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button _btnRmLanduse;
         private System.Windows.Forms.Button _btnAddLanduse;
         private System.Windows.Forms.Button _btnRmNR;
@@ -379,7 +354,6 @@
         private System.Windows.Forms.Button _btnAddRoads;
         private System.Windows.Forms.DataGridView _dataGridView;
         private System.Windows.Forms.GroupBox _gb3;
-        private System.Windows.Forms.GroupBox _gb4;
         private System.Windows.Forms.Label _lbActiveLayer;
         private System.Windows.Forms.TextBox _tbBBoxW;
         private System.Windows.Forms.TextBox _tbBBoxH;

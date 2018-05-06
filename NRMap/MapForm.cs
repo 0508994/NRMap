@@ -127,10 +127,10 @@ namespace NRMap
                 _controller.ActiveLayer = Constants.nrTable;
         }
 
-        private void RbLanduse_CheckedChanged(object sender, EventArgs e)
+        private void RbWaters_CheckedChanged(object sender, EventArgs e)
         {
-            if (_rbLanduse.Checked)
-                _controller.ActiveLayer = Constants.landuseTable;
+            if (_rbWaters.Checked)
+                _controller.ActiveLayer = Constants.watersTable;
         }
 
         private void MapBox_MouseClick(object sender, MouseEventArgs e)
@@ -177,6 +177,19 @@ namespace NRMap
             }
         }
 
+        private void BtnAddWaters_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnAddWatersLayer();
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
         private void BtnRmRoads_Click(object sender, EventArgs e)
         {
             try
@@ -197,6 +210,20 @@ namespace NRMap
             {
                 _controller.OnRemoveLayer(Constants.nrLayerName);
                 _controller.OnRemoveLayer(Constants.nrLabelName);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show("Couldn't remove the layer.");
+            }
+        }
+
+        private void BtnRmWaters_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnRemoveLayer(Constants.watersLayerName);
+                _controller.OnRemoveLayer(Constants.watersLabelName);
             }
             catch (Exception exception)
             {

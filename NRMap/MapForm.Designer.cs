@@ -36,7 +36,7 @@
             this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
             this._rbNR = new System.Windows.Forms.RadioButton();
-            this._rbLanduse = new System.Windows.Forms.RadioButton();
+            this._rbWaters = new System.Windows.Forms.RadioButton();
             this._rbRoads = new System.Windows.Forms.RadioButton();
             this._btnGetBBox = new System.Windows.Forms.Button();
             this._lbBBoxTL = new System.Windows.Forms.Label();
@@ -44,8 +44,8 @@
             this._tbBBoxH = new System.Windows.Forms.TextBox();
             this._tbBBoxMp = new System.Windows.Forms.TextBox();
             this._lbActiveLayer = new System.Windows.Forms.Label();
-            this._btnRmLanduse = new System.Windows.Forms.Button();
-            this._btnAddLanduse = new System.Windows.Forms.Button();
+            this._btnRmWaters = new System.Windows.Forms.Button();
+            this._btnAddWaters = new System.Windows.Forms.Button();
             this._btnRmNR = new System.Windows.Forms.Button();
             this._btnAddNR = new System.Windows.Forms.Button();
             this._btnRmRoads = new System.Windows.Forms.Button();
@@ -127,7 +127,7 @@
             // _gb2
             // 
             this._gb2.Controls.Add(this._rbNR);
-            this._gb2.Controls.Add(this._rbLanduse);
+            this._gb2.Controls.Add(this._rbWaters);
             this._gb2.Controls.Add(this._rbRoads);
             this._gb2.Controls.Add(this._btnGetBBox);
             this._gb2.Controls.Add(this._lbBBoxTL);
@@ -135,8 +135,8 @@
             this._gb2.Controls.Add(this._tbBBoxH);
             this._gb2.Controls.Add(this._tbBBoxMp);
             this._gb2.Controls.Add(this._lbActiveLayer);
-            this._gb2.Controls.Add(this._btnRmLanduse);
-            this._gb2.Controls.Add(this._btnAddLanduse);
+            this._gb2.Controls.Add(this._btnRmWaters);
+            this._gb2.Controls.Add(this._btnAddWaters);
             this._gb2.Controls.Add(this._btnRmNR);
             this._gb2.Controls.Add(this._btnAddNR);
             this._gb2.Controls.Add(this._btnRmRoads);
@@ -160,16 +160,16 @@
             this._rbNR.UseVisualStyleBackColor = true;
             this._rbNR.CheckedChanged += new System.EventHandler(this.RbNR_CheckedChanged);
             // 
-            // _rbLanduse
+            // _rbWaters
             // 
-            this._rbLanduse.AutoSize = true;
-            this._rbLanduse.Location = new System.Drawing.Point(154, 139);
-            this._rbLanduse.Name = "_rbLanduse";
-            this._rbLanduse.Size = new System.Drawing.Size(66, 17);
-            this._rbLanduse.TabIndex = 16;
-            this._rbLanduse.Text = "Landuse";
-            this._rbLanduse.UseVisualStyleBackColor = true;
-            this._rbLanduse.CheckedChanged += new System.EventHandler(this.RbLanduse_CheckedChanged);
+            this._rbWaters.AutoSize = true;
+            this._rbWaters.Location = new System.Drawing.Point(154, 139);
+            this._rbWaters.Name = "_rbWaters";
+            this._rbWaters.Size = new System.Drawing.Size(59, 17);
+            this._rbWaters.TabIndex = 16;
+            this._rbWaters.Text = "Waters";
+            this._rbWaters.UseVisualStyleBackColor = true;
+            this._rbWaters.CheckedChanged += new System.EventHandler(this.RbWaters_CheckedChanged);
             // 
             // _rbRoads
             // 
@@ -239,23 +239,25 @@
             this._lbActiveLayer.Text = "Active Layer";
             this._lbActiveLayer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // _btnRmLanduse
+            // _btnRmWaters
             // 
-            this._btnRmLanduse.Location = new System.Drawing.Point(126, 85);
-            this._btnRmLanduse.Name = "_btnRmLanduse";
-            this._btnRmLanduse.Size = new System.Drawing.Size(114, 27);
-            this._btnRmLanduse.TabIndex = 6;
-            this._btnRmLanduse.Text = "Remove Landuse";
-            this._btnRmLanduse.UseVisualStyleBackColor = true;
+            this._btnRmWaters.Location = new System.Drawing.Point(126, 85);
+            this._btnRmWaters.Name = "_btnRmWaters";
+            this._btnRmWaters.Size = new System.Drawing.Size(114, 27);
+            this._btnRmWaters.TabIndex = 6;
+            this._btnRmWaters.Text = "Remove Waters";
+            this._btnRmWaters.UseVisualStyleBackColor = true;
+            this._btnRmWaters.Click += new System.EventHandler(this.BtnRmWaters_Click);
             // 
-            // _btnAddLanduse
+            // _btnAddWaters
             // 
-            this._btnAddLanduse.Location = new System.Drawing.Point(6, 85);
-            this._btnAddLanduse.Name = "_btnAddLanduse";
-            this._btnAddLanduse.Size = new System.Drawing.Size(114, 27);
-            this._btnAddLanduse.TabIndex = 5;
-            this._btnAddLanduse.Text = "Add Landuse";
-            this._btnAddLanduse.UseVisualStyleBackColor = true;
+            this._btnAddWaters.Location = new System.Drawing.Point(6, 85);
+            this._btnAddWaters.Name = "_btnAddWaters";
+            this._btnAddWaters.Size = new System.Drawing.Size(114, 27);
+            this._btnAddWaters.TabIndex = 5;
+            this._btnAddWaters.Text = "Add Waters";
+            this._btnAddWaters.UseVisualStyleBackColor = true;
+            this._btnAddWaters.Click += new System.EventHandler(this.BtnAddWaters_Click);
             // 
             // _btnRmNR
             // 
@@ -346,8 +348,8 @@
         private System.Windows.Forms.CheckBox _cbShowUTM;
         private System.Windows.Forms.GroupBox _gb1;
         private System.Windows.Forms.GroupBox _gb2;
-        private System.Windows.Forms.Button _btnRmLanduse;
-        private System.Windows.Forms.Button _btnAddLanduse;
+        private System.Windows.Forms.Button _btnRmWaters;
+        private System.Windows.Forms.Button _btnAddWaters;
         private System.Windows.Forms.Button _btnRmNR;
         private System.Windows.Forms.Button _btnAddNR;
         private System.Windows.Forms.Button _btnRmRoads;
@@ -362,7 +364,7 @@
         private System.Windows.Forms.Button _btnGetBBox;
         private System.Windows.Forms.CheckBox _cbActivatePan;
         private System.Windows.Forms.RadioButton _rbNR;
-        private System.Windows.Forms.RadioButton _rbLanduse;
+        private System.Windows.Forms.RadioButton _rbWaters;
         private System.Windows.Forms.RadioButton _rbRoads;
     }
 }

@@ -11,7 +11,7 @@ namespace NRMap.Controllers
         void OnMapMouseClick(GeoAPI.Geometries.Coordinate point);
         void OnAddRoadsLayer();
         void OnAddNRLayer(string query=null);
-        void OnAddLanduseLayer();
+        void OnAddWatersLayer();
 
         void OnRemoveLayer(string layerName);
 

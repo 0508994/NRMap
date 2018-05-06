@@ -249,8 +249,47 @@ namespace NRMap.Controllers
             _view.AddLayer(nrLabel);
         }
 
-        public void OnAddLanduseLayer()
+        public void OnAddWatersLayer()
         {
+            SharpMap.Data.Providers.PostGIS postGisProv = new
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.watersTable, Constants.geomName, Constants.idName);
+
+            VectorLayer watersLayer = new VectorLayer(Constants.watersLayerName)
+            {
+                DataSource = postGisProv
+            };
+
+            System.Drawing.Brush riverBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(59, 179, 208));
+            System.Drawing.Brush wetlandBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(59, 151, 128));
+            System.Drawing.Brush dockBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(164, 164, 132));
+            System.Drawing.Brush reservoirBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 132, 255));
+            System.Drawing.Brush waterBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(64, 164, 223));
+
+            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>()
+            {
+                { "wetland", new VectorStyle() { Fill = wetlandBrush } },
+                { "reservoir", new VectorStyle() { Fill = reservoirBrush } },
+                { "dock", new VectorStyle() { Fill = dockBrush } },
+                { "river", new VectorStyle() { Fill = riverBrush } },
+                { "water", new VectorStyle() { Fill = waterBrush } }
+            };
+
+            watersLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
+                styles, null);
+
+            LabelLayer watersLabel = new LabelLayer(Constants.watersLabelName)
+            {
+                DataSource = watersLayer.DataSource,
+                Enabled = true,
+                LabelColumn = "name",
+                MaxVisible = 0.3f
+            };
+
+            //SetCtAndRct(watersLayer);
+            //SetCtAndRct(watersLabel);
+
+            _view.AddLayer(watersLayer);
+            _view.AddLayer(watersLabel);
 
         }
         

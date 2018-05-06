@@ -20,13 +20,21 @@ namespace NRMap.Controllers
         // show real or UTM coordinates indicator
         private bool _bShowUTM;
         // Active Query layer
-        private string _queryLayer = "public.buildings"; // TODO:
-        // _bShowUTM property
+        private string _activeLayer = Constants.roadsTable; // TODO:
+
         public bool BShowUTM
         {
             set
             {
                 _bShowUTM = value;
+            }
+        }
+        
+        public string ActiveLayer
+        {
+            set
+            {
+                _activeLayer = value;
             }
         }
         #endregion
@@ -94,7 +102,7 @@ namespace NRMap.Controllers
         private void GetEnvelopeIntersections(Envelope envelope)
         {
             SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, _activeLayer, Constants.geomName, Constants.idName);
 
             SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
             postGisProv.Open();
@@ -110,7 +118,7 @@ namespace NRMap.Controllers
         private void GetGeometryIntersections(IGeometry geometry)
         {
             SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, _queryLayer, Constants.geomName, Constants.idName);
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, _activeLayer, Constants.geomName, Constants.idName);
 
             SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
             postGisProv.Open();
@@ -149,7 +157,7 @@ namespace NRMap.Controllers
             SharpMap.Data.Providers.PostGIS postGisProv = new
                 SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.roadsTable, Constants.geomName, Constants.idName)
             {
-                DefinitionQuery = "fclass = \'primary\' or fclass = \'secondary\' or fclass = \'motorway_link\'"
+                DefinitionQuery = "fclass = 'primary' or fclass = 'secondary' or fclass = 'motorway_link'"
             };
 
             VectorLayer roadsLayer = new VectorLayer(Constants.roadsLayerName)
@@ -200,6 +208,37 @@ namespace NRMap.Controllers
         }
 
         public void OnAddNRLayer()
+        {
+            SharpMap.Data.Providers.PostGIS postGisProv = new
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.nrTable, Constants.geomName, Constants.idName);
+
+            VectorLayer nrLayer = new VectorLayer(Constants.nrLayerName)
+            {
+                DataSource = postGisProv
+            };
+
+            // style used to render cave entrances { fclass = cave_entrance }
+            VectorStyle caveEntranceStyle = new VectorStyle()
+            {
+                Symbol = Properties.Resources.cave
+            };
+
+
+
+            Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>
+                {
+                    { "cave_entrance", caveEntranceStyle }
+                };
+
+            nrLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
+                    styles, null);
+
+
+
+            _view.AddLayer(nrLayer);
+        }
+
+        public void OnAddLanduseLayer()
         {
 
         }

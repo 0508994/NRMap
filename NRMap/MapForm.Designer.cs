@@ -33,27 +33,27 @@
             this._lbTextCoord = new System.Windows.Forms.Label();
             this._cbShowUTM = new System.Windows.Forms.CheckBox();
             this._gb1 = new System.Windows.Forms.GroupBox();
+            this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
+            this._rbNR = new System.Windows.Forms.RadioButton();
+            this._rbLanduse = new System.Windows.Forms.RadioButton();
+            this._rbRoads = new System.Windows.Forms.RadioButton();
             this._btnGetBBox = new System.Windows.Forms.Button();
             this._lbBBoxTL = new System.Windows.Forms.Label();
             this._tbBBoxW = new System.Windows.Forms.TextBox();
             this._tbBBoxH = new System.Windows.Forms.TextBox();
             this._tbBBoxMp = new System.Windows.Forms.TextBox();
             this._lbActiveLayer = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.cbNR = new System.Windows.Forms.CheckBox();
-            this._cbRoads = new System.Windows.Forms.CheckBox();
             this._gb3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this._btnRmLanduse = new System.Windows.Forms.Button();
+            this._btnAddLanduse = new System.Windows.Forms.Button();
+            this._btnRmNR = new System.Windows.Forms.Button();
+            this._btnAddNR = new System.Windows.Forms.Button();
             this._btnRmRoads = new System.Windows.Forms.Button();
             this._btnAddRoads = new System.Windows.Forms.Button();
             this._dataGridView = new System.Windows.Forms.DataGridView();
             this._gb4 = new System.Windows.Forms.GroupBox();
-            this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
             this._gb3.SuspendLayout();
@@ -116,36 +116,83 @@
             this._gb1.TabStop = false;
             this._gb1.Text = "Map";
             // 
+            // _cbActivatePan
+            // 
+            this._cbActivatePan.AutoSize = true;
+            this._cbActivatePan.Location = new System.Drawing.Point(50, 9);
+            this._cbActivatePan.Name = "_cbActivatePan";
+            this._cbActivatePan.Size = new System.Drawing.Size(45, 17);
+            this._cbActivatePan.TabIndex = 3;
+            this._cbActivatePan.Text = "Pan";
+            this._cbActivatePan.UseVisualStyleBackColor = true;
+            this._cbActivatePan.CheckedChanged += new System.EventHandler(this.CbActivatePan_CheckedChanged);
+            // 
             // _gb2
             // 
+            this._gb2.Controls.Add(this._rbNR);
+            this._gb2.Controls.Add(this._rbLanduse);
+            this._gb2.Controls.Add(this._rbRoads);
             this._gb2.Controls.Add(this._btnGetBBox);
             this._gb2.Controls.Add(this._lbBBoxTL);
             this._gb2.Controls.Add(this._tbBBoxW);
             this._gb2.Controls.Add(this._tbBBoxH);
             this._gb2.Controls.Add(this._tbBBoxMp);
             this._gb2.Controls.Add(this._lbActiveLayer);
-            this._gb2.Controls.Add(this.checkBox3);
-            this._gb2.Controls.Add(this.cbNR);
-            this._gb2.Controls.Add(this._cbRoads);
             this._gb2.Controls.Add(this._gb3);
-            this._gb2.Controls.Add(this.button7);
-            this._gb2.Controls.Add(this.button6);
-            this._gb2.Controls.Add(this.button5);
-            this._gb2.Controls.Add(this.button4);
+            this._gb2.Controls.Add(this._btnRmLanduse);
+            this._gb2.Controls.Add(this._btnAddLanduse);
+            this._gb2.Controls.Add(this._btnRmNR);
+            this._gb2.Controls.Add(this._btnAddNR);
             this._gb2.Controls.Add(this._btnRmRoads);
             this._gb2.Controls.Add(this._btnAddRoads);
             this._gb2.Location = new System.Drawing.Point(774, 12);
             this._gb2.Name = "_gb2";
-            this._gb2.Size = new System.Drawing.Size(226, 519);
+            this._gb2.Size = new System.Drawing.Size(247, 519);
             this._gb2.TabIndex = 4;
             this._gb2.TabStop = false;
             this._gb2.Text = "Controls";
+            // 
+            // _rbNR
+            // 
+            this._rbNR.AutoSize = true;
+            this._rbNR.Location = new System.Drawing.Point(101, 139);
+            this._rbNR.Name = "_rbNR";
+            this._rbNR.Size = new System.Drawing.Size(41, 17);
+            this._rbNR.TabIndex = 17;
+            this._rbNR.Text = "NR";
+            this._rbNR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._rbNR.UseVisualStyleBackColor = true;
+            this._rbNR.CheckedChanged += new System.EventHandler(this.RbNR_CheckedChanged);
+            // 
+            // _rbLanduse
+            // 
+            this._rbLanduse.AutoSize = true;
+            this._rbLanduse.Location = new System.Drawing.Point(154, 139);
+            this._rbLanduse.Name = "_rbLanduse";
+            this._rbLanduse.Size = new System.Drawing.Size(66, 17);
+            this._rbLanduse.TabIndex = 16;
+            this._rbLanduse.Text = "Landuse";
+            this._rbLanduse.UseVisualStyleBackColor = true;
+            this._rbLanduse.CheckedChanged += new System.EventHandler(this.RbLanduse_CheckedChanged);
+            // 
+            // _rbRoads
+            // 
+            this._rbRoads.AutoSize = true;
+            this._rbRoads.Checked = true;
+            this._rbRoads.Location = new System.Drawing.Point(28, 139);
+            this._rbRoads.Name = "_rbRoads";
+            this._rbRoads.Size = new System.Drawing.Size(56, 17);
+            this._rbRoads.TabIndex = 1;
+            this._rbRoads.TabStop = true;
+            this._rbRoads.Text = "Roads";
+            this._rbRoads.UseVisualStyleBackColor = true;
+            this._rbRoads.CheckedChanged += new System.EventHandler(this.RbRoads_CheckedChanged);
             // 
             // _btnGetBBox
             // 
             this._btnGetBBox.Location = new System.Drawing.Point(6, 242);
             this._btnGetBBox.Name = "_btnGetBBox";
-            this._btnGetBBox.Size = new System.Drawing.Size(214, 23);
+            this._btnGetBBox.Size = new System.Drawing.Size(231, 23);
             this._btnGetBBox.TabIndex = 1;
             this._btnGetBBox.Text = "Get BBox Features";
             this._btnGetBBox.UseVisualStyleBackColor = true;
@@ -154,7 +201,7 @@
             // _lbBBoxTL
             // 
             this._lbBBoxTL.AutoSize = true;
-            this._lbBBoxTL.Location = new System.Drawing.Point(75, 174);
+            this._lbBBoxTL.Location = new System.Drawing.Point(84, 174);
             this._lbBBoxTL.Name = "_lbBBoxTL";
             this._lbBBoxTL.Size = new System.Drawing.Size(75, 13);
             this._lbBBoxTL.TabIndex = 15;
@@ -163,9 +210,9 @@
             // 
             // _tbBBoxW
             // 
-            this._tbBBoxW.Location = new System.Drawing.Point(122, 216);
+            this._tbBBoxW.Location = new System.Drawing.Point(133, 216);
             this._tbBBoxW.Name = "_tbBBoxW";
-            this._tbBBoxW.Size = new System.Drawing.Size(98, 20);
+            this._tbBBoxW.Size = new System.Drawing.Size(107, 20);
             this._tbBBoxW.TabIndex = 14;
             this._tbBBoxW.Text = "Width ( m )";
             // 
@@ -173,7 +220,7 @@
             // 
             this._tbBBoxH.Location = new System.Drawing.Point(6, 216);
             this._tbBBoxH.Name = "_tbBBoxH";
-            this._tbBBoxH.Size = new System.Drawing.Size(98, 20);
+            this._tbBBoxH.Size = new System.Drawing.Size(107, 20);
             this._tbBBoxH.TabIndex = 13;
             this._tbBBoxH.Text = "Height ( m )";
             // 
@@ -182,56 +229,26 @@
             this._tbBBoxMp.Location = new System.Drawing.Point(6, 190);
             this._tbBBoxMp.Name = "_tbBBoxMp";
             this._tbBBoxMp.ReadOnly = true;
-            this._tbBBoxMp.Size = new System.Drawing.Size(214, 20);
+            this._tbBBoxMp.Size = new System.Drawing.Size(235, 20);
             this._tbBBoxMp.TabIndex = 12;
             this._tbBBoxMp.Text = "Click on the map...";
             // 
             // _lbActiveLayer
             // 
             this._lbActiveLayer.AutoSize = true;
-            this._lbActiveLayer.Location = new System.Drawing.Point(75, 123);
+            this._lbActiveLayer.Location = new System.Drawing.Point(84, 123);
             this._lbActiveLayer.Name = "_lbActiveLayer";
             this._lbActiveLayer.Size = new System.Drawing.Size(66, 13);
             this._lbActiveLayer.TabIndex = 11;
             this._lbActiveLayer.Text = "Active Layer";
             this._lbActiveLayer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(138, 139);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(48, 17);
-            this.checkBox3.TabIndex = 10;
-            this.checkBox3.Text = "TBD";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // cbNR
-            // 
-            this.cbNR.AutoSize = true;
-            this.cbNR.Location = new System.Drawing.Point(90, 139);
-            this.cbNR.Name = "cbNR";
-            this.cbNR.Size = new System.Drawing.Size(42, 17);
-            this.cbNR.TabIndex = 9;
-            this.cbNR.Text = "NR";
-            this.cbNR.UseVisualStyleBackColor = true;
-            // 
-            // _cbRoads
-            // 
-            this._cbRoads.AutoSize = true;
-            this._cbRoads.Location = new System.Drawing.Point(27, 139);
-            this._cbRoads.Name = "_cbRoads";
-            this._cbRoads.Size = new System.Drawing.Size(57, 17);
-            this._cbRoads.TabIndex = 8;
-            this._cbRoads.Text = "Roads";
-            this._cbRoads.UseVisualStyleBackColor = true;
-            // 
             // _gb3
             // 
             this._gb3.Controls.Add(this.button1);
-            this._gb3.Location = new System.Drawing.Point(6, 283);
+            this._gb3.Location = new System.Drawing.Point(17, 350);
             this._gb3.Name = "_gb3";
-            this._gb3.Size = new System.Drawing.Size(214, 220);
+            this._gb3.Size = new System.Drawing.Size(203, 153);
             this._gb3.TabIndex = 7;
             this._gb3.TabStop = false;
             this._gb3.Text = "Basic Operations";
@@ -246,47 +263,48 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // button7
+            // _btnRmLanduse
             // 
-            this.button7.Location = new System.Drawing.Point(114, 85);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(98, 27);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "Remove TBD";
-            this.button7.UseVisualStyleBackColor = true;
+            this._btnRmLanduse.Location = new System.Drawing.Point(126, 85);
+            this._btnRmLanduse.Name = "_btnRmLanduse";
+            this._btnRmLanduse.Size = new System.Drawing.Size(114, 27);
+            this._btnRmLanduse.TabIndex = 6;
+            this._btnRmLanduse.Text = "Remove Landuse";
+            this._btnRmLanduse.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // _btnAddLanduse
             // 
-            this.button6.Location = new System.Drawing.Point(6, 85);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(98, 27);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Add TBD";
-            this.button6.UseVisualStyleBackColor = true;
+            this._btnAddLanduse.Location = new System.Drawing.Point(6, 85);
+            this._btnAddLanduse.Name = "_btnAddLanduse";
+            this._btnAddLanduse.Size = new System.Drawing.Size(114, 27);
+            this._btnAddLanduse.TabIndex = 5;
+            this._btnAddLanduse.Text = "Add Landuse";
+            this._btnAddLanduse.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // _btnRmNR
             // 
-            this.button5.Location = new System.Drawing.Point(114, 52);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(98, 27);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Remove NR";
-            this.button5.UseVisualStyleBackColor = true;
+            this._btnRmNR.Location = new System.Drawing.Point(126, 52);
+            this._btnRmNR.Name = "_btnRmNR";
+            this._btnRmNR.Size = new System.Drawing.Size(114, 27);
+            this._btnRmNR.TabIndex = 4;
+            this._btnRmNR.Text = "Remove NR";
+            this._btnRmNR.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // _btnAddNR
             // 
-            this.button4.Location = new System.Drawing.Point(6, 52);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(98, 27);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Add NR";
-            this.button4.UseVisualStyleBackColor = true;
+            this._btnAddNR.Location = new System.Drawing.Point(6, 52);
+            this._btnAddNR.Name = "_btnAddNR";
+            this._btnAddNR.Size = new System.Drawing.Size(114, 27);
+            this._btnAddNR.TabIndex = 3;
+            this._btnAddNR.Text = "Add NR";
+            this._btnAddNR.UseVisualStyleBackColor = true;
+            this._btnAddNR.Click += new System.EventHandler(this.BtnAddNR_Click);
             // 
             // _btnRmRoads
             // 
-            this._btnRmRoads.Location = new System.Drawing.Point(114, 19);
+            this._btnRmRoads.Location = new System.Drawing.Point(126, 19);
             this._btnRmRoads.Name = "_btnRmRoads";
-            this._btnRmRoads.Size = new System.Drawing.Size(98, 27);
+            this._btnRmRoads.Size = new System.Drawing.Size(114, 27);
             this._btnRmRoads.TabIndex = 2;
             this._btnRmRoads.Text = "Remove Roads";
             this._btnRmRoads.UseVisualStyleBackColor = true;
@@ -296,7 +314,7 @@
             // 
             this._btnAddRoads.Location = new System.Drawing.Point(6, 19);
             this._btnAddRoads.Name = "_btnAddRoads";
-            this._btnAddRoads.Size = new System.Drawing.Size(98, 27);
+            this._btnAddRoads.Size = new System.Drawing.Size(114, 27);
             this._btnAddRoads.TabIndex = 1;
             this._btnAddRoads.Text = "Add Roads";
             this._btnAddRoads.UseVisualStyleBackColor = true;
@@ -320,22 +338,11 @@
             this._gb4.TabStop = false;
             this._gb4.Text = "Features";
             // 
-            // _cbActivatePan
-            // 
-            this._cbActivatePan.AutoSize = true;
-            this._cbActivatePan.Location = new System.Drawing.Point(50, 9);
-            this._cbActivatePan.Name = "_cbActivatePan";
-            this._cbActivatePan.Size = new System.Drawing.Size(45, 17);
-            this._cbActivatePan.TabIndex = 3;
-            this._cbActivatePan.Text = "Pan";
-            this._cbActivatePan.UseVisualStyleBackColor = true;
-            this._cbActivatePan.CheckedChanged += new System.EventHandler(this.CbActivatePan_CheckedChanged);
-            // 
             // MapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1004, 543);
+            this.ClientSize = new System.Drawing.Size(1024, 541);
             this.Controls.Add(this._gb4);
             this.Controls.Add(this._gb2);
             this.Controls.Add(this._gb1);
@@ -364,16 +371,13 @@
         private System.Windows.Forms.GroupBox _gb1;
         private System.Windows.Forms.GroupBox _gb2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button _btnRmLanduse;
+        private System.Windows.Forms.Button _btnAddLanduse;
+        private System.Windows.Forms.Button _btnRmNR;
+        private System.Windows.Forms.Button _btnAddNR;
         private System.Windows.Forms.Button _btnRmRoads;
         private System.Windows.Forms.Button _btnAddRoads;
         private System.Windows.Forms.DataGridView _dataGridView;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox cbNR;
-        private System.Windows.Forms.CheckBox _cbRoads;
         private System.Windows.Forms.GroupBox _gb3;
         private System.Windows.Forms.GroupBox _gb4;
         private System.Windows.Forms.Label _lbActiveLayer;
@@ -383,6 +387,9 @@
         private System.Windows.Forms.Label _lbBBoxTL;
         private System.Windows.Forms.Button _btnGetBBox;
         private System.Windows.Forms.CheckBox _cbActivatePan;
+        private System.Windows.Forms.RadioButton _rbNR;
+        private System.Windows.Forms.RadioButton _rbLanduse;
+        private System.Windows.Forms.RadioButton _rbRoads;
     }
 }
 

@@ -115,6 +115,24 @@ namespace NRMap
                 _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.None;
         }
 
+        private void RbRoads_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_rbRoads.Checked)
+                _controller.ActiveLayer = Constants.roadsTable;
+        }
+
+        private void RbNR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_rbNR.Checked)
+                _controller.ActiveLayer = Constants.nrTable;
+        }
+
+        private void RbLanduse_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_rbLanduse.Checked)
+                _controller.ActiveLayer = Constants.landuseTable;
+        }
+
         private void MapBox_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -146,10 +164,33 @@ namespace NRMap
             
         }
 
+        private void BtnAddNR_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnAddNRLayer();
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show(exception.ToString());
+            }
+        }
+
         private void BtnRmRoads_Click(object sender, EventArgs e)
         {
-            _controller.OnRemoveLayer(Constants.roadsLayerName);
-            _controller.OnRemoveLayer(Constants.roadsLabelName);
+            try
+            {
+
+
+                _controller.OnRemoveLayer(Constants.roadsLayerName);
+                _controller.OnRemoveLayer(Constants.roadsLabelName);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show("Couldn't remove the layer.");
+            }
         }
 
         private void BtnGetBBox_Click(object sender, EventArgs e)
@@ -225,6 +266,6 @@ namespace NRMap
             //MessageBox.Show(data.Rows.Count.ToString());
         }
 
-  
+
     }
 }

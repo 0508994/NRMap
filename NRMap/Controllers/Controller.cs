@@ -2,6 +2,7 @@
 using GeoAPI.CoordinateSystems.Transformations;
 using GeoAPI.Geometries;
 using NRMap.Views;
+using NRMap.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using System.Collections.Generic;

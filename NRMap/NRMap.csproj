@@ -121,7 +121,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="MapForm.cs">
@@ -168,12 +168,12 @@
   <ItemGroup>
     <Content Include="GdalConfiguration.vb" />
     <Content Include="GdalNativeConfiguration.vb" />
+    <None Include="Resources\cave.png" />
     <None Include="Resources\cliff.png" />
     <None Include="Resources\beach.png" />
     <None Include="Resources\water.png" />
     <None Include="Resources\peak.png" />
     <None Include="Resources\tree.png" />
-    <None Include="Images\cave.png" />
     <None Include="Resources\cave.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

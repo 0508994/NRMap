@@ -9,6 +9,7 @@ using System.Data;
 using GeoAPI.Geometries;
 using Npgsql;
 using System.Collections.Generic;
+using NRMap.Utilities;
 
 namespace NRMap
 {

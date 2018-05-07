@@ -1,4 +1,4 @@
-﻿namespace NRMap
+﻿namespace NRMap.Utilities
 {
     public static class Constants
     {

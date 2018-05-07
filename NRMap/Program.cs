@@ -13,6 +13,7 @@ namespace NRMap
         {
             // https://gis.stackexchange.com/questions/48949/epsg-3857-or-4326-for-googlemaps-openstreetmap-and-leaflet
             // https://stackoverflow.com/questions/9595681/creating-new-layers-in-sharpmap
+            // https://github.com/SharpMap/SharpMapV2/blob/master/SharpMap.Data.Providers/PostGisProvider/PostGisProvider.cs
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

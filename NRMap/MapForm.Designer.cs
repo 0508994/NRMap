@@ -35,6 +35,10 @@
             this._gb1 = new System.Windows.Forms.GroupBox();
             this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
+            this._btnPickQRColor = new System.Windows.Forms.Button();
+            this._lbLayerDescription = new System.Windows.Forms.Label();
+            this._btnQueryLayer = new System.Windows.Forms.Button();
+            this._rtbQuery = new System.Windows.Forms.RichTextBox();
             this._rbNR = new System.Windows.Forms.RadioButton();
             this._rbWaters = new System.Windows.Forms.RadioButton();
             this._rbRoads = new System.Windows.Forms.RadioButton();
@@ -52,6 +56,7 @@
             this._btnAddRoads = new System.Windows.Forms.Button();
             this._dataGridView = new System.Windows.Forms.DataGridView();
             this._gb3 = new System.Windows.Forms.GroupBox();
+            this._colorPicker = new System.Windows.Forms.ColorDialog();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
@@ -77,7 +82,6 @@
             this._mapBox.Text = "mapBox";
             this._mapBox.WheelZoomMagnitude = -2D;
             this._mapBox.MouseMove += new SharpMap.Forms.MapBox.MouseEventHandler(this.MapBox_MouseMove);
-            this._mapBox.MapQueried += new SharpMap.Forms.MapBox.MapQueryHandler(this._mapBox_MapQueried);
             this._mapBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapBox_MouseClick);
             // 
             // _lbTextCoord
@@ -126,6 +130,10 @@
             // 
             // _gb2
             // 
+            this._gb2.Controls.Add(this._btnPickQRColor);
+            this._gb2.Controls.Add(this._lbLayerDescription);
+            this._gb2.Controls.Add(this._btnQueryLayer);
+            this._gb2.Controls.Add(this._rtbQuery);
             this._gb2.Controls.Add(this._rbNR);
             this._gb2.Controls.Add(this._rbWaters);
             this._gb2.Controls.Add(this._rbRoads);
@@ -147,6 +155,46 @@
             this._gb2.TabIndex = 4;
             this._gb2.TabStop = false;
             this._gb2.Text = "Controls";
+            // 
+            // _btnPickQRColor
+            // 
+            this._btnPickQRColor.Location = new System.Drawing.Point(6, 432);
+            this._btnPickQRColor.Name = "_btnPickQRColor";
+            this._btnPickQRColor.Size = new System.Drawing.Size(235, 23);
+            this._btnPickQRColor.TabIndex = 21;
+            this._btnPickQRColor.Text = "Pick Result Color";
+            this._btnPickQRColor.UseVisualStyleBackColor = true;
+            this._btnPickQRColor.Click += new System.EventHandler(this.BtnPickQRColor_Click);
+            // 
+            // _lbLayerDescription
+            // 
+            this._lbLayerDescription.AutoSize = true;
+            this._lbLayerDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lbLayerDescription.Location = new System.Drawing.Point(6, 295);
+            this._lbLayerDescription.Name = "_lbLayerDescription";
+            this._lbLayerDescription.Size = new System.Drawing.Size(35, 13);
+            this._lbLayerDescription.TabIndex = 20;
+            this._lbLayerDescription.Text = "label1";
+            this._lbLayerDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _btnQueryLayer
+            // 
+            this._btnQueryLayer.Location = new System.Drawing.Point(7, 461);
+            this._btnQueryLayer.Name = "_btnQueryLayer";
+            this._btnQueryLayer.Size = new System.Drawing.Size(234, 23);
+            this._btnQueryLayer.TabIndex = 19;
+            this._btnQueryLayer.Text = "Query Layer";
+            this._btnQueryLayer.UseVisualStyleBackColor = true;
+            this._btnQueryLayer.Click += new System.EventHandler(this.BtnQueryLayer_Click);
+            // 
+            // _rtbQuery
+            // 
+            this._rtbQuery.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._rtbQuery.Location = new System.Drawing.Point(7, 342);
+            this._rtbQuery.Name = "_rtbQuery";
+            this._rtbQuery.Size = new System.Drawing.Size(231, 81);
+            this._rtbQuery.TabIndex = 18;
+            this._rtbQuery.Text = "";
             // 
             // _rbNR
             // 
@@ -188,7 +236,7 @@
             // 
             this._btnGetBBox.Location = new System.Drawing.Point(6, 242);
             this._btnGetBBox.Name = "_btnGetBBox";
-            this._btnGetBBox.Size = new System.Drawing.Size(231, 23);
+            this._btnGetBBox.Size = new System.Drawing.Size(235, 23);
             this._btnGetBBox.TabIndex = 1;
             this._btnGetBBox.Text = "Get BBox Features";
             this._btnGetBBox.UseVisualStyleBackColor = true;
@@ -210,7 +258,7 @@
             this._tbBBoxW.Name = "_tbBBoxW";
             this._tbBBoxW.Size = new System.Drawing.Size(107, 20);
             this._tbBBoxW.TabIndex = 14;
-            this._tbBBoxW.Text = "Width ( m )";
+            this._tbBBoxW.Text = "Width";
             // 
             // _tbBBoxH
             // 
@@ -218,7 +266,7 @@
             this._tbBBoxH.Name = "_tbBBoxH";
             this._tbBBoxH.Size = new System.Drawing.Size(107, 20);
             this._tbBBoxH.TabIndex = 13;
-            this._tbBBoxH.Text = "Height ( m )";
+            this._tbBBoxH.Text = "Height";
             // 
             // _tbBBoxMp
             // 
@@ -330,7 +378,7 @@
             this.MaximizeBox = false;
             this.Name = "MapForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Map";
+            this.Text = "Natural Resources Manager";
             this._gb1.ResumeLayout(false);
             this._gb1.PerformLayout();
             this._gb2.ResumeLayout(false);
@@ -366,6 +414,11 @@
         private System.Windows.Forms.RadioButton _rbNR;
         private System.Windows.Forms.RadioButton _rbWaters;
         private System.Windows.Forms.RadioButton _rbRoads;
+        private System.Windows.Forms.RichTextBox _rtbQuery;
+        private System.Windows.Forms.Button _btnQueryLayer;
+        private System.Windows.Forms.Label _lbLayerDescription;
+        private System.Windows.Forms.Button _btnPickQRColor;
+        private System.Windows.Forms.ColorDialog _colorPicker;
     }
 }
 

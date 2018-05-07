@@ -21,19 +21,8 @@ namespace NRMap
         public MapForm()
         {
             InitializeComponent();
-            AddTiledLayerAsBackground();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("c1");
-            dt.Columns.Add("c2");
-            dt.Columns.Add("c3");
-            dt.Columns.Add("c4");
-            dt.Columns.Add("c5");
-
-            for (int i = 0; i < 100; i++)
-                dt.Rows.Add(new object[] { "mitar", "djuro", "muro", "perica", "erica" });
-
-            _dataGridView.DataSource = dt;
+            //AddTiledLayerAsBackground();
+            _lbLayerDescription.Text = Constants.roadsLayerDescr;
         }
 
         public void AddListener(IController controller)
@@ -65,32 +54,35 @@ namespace NRMap
 
         }
 
+        // Uselles
         public void AddTiledLayerAsBackground()
         {
-            //_mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
-            //    new BruTile.Web.OsmTileSource(), "OSM"));
+            _mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
+                new BruTile.Web.OsmTileSource(), "OSM"));
 
-            //_mapBox.Map.ZoomToExtents();
-            //_mapBox.Refresh();
-            //_mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
+            _mapBox.Map.ZoomToExtents();
+            _mapBox.Refresh();
+            _mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
         }
 
+        // Add layer to the map
         public void AddLayer(ILayer layer)
         {
             _mapBox.Map.Layers.Add(layer);
 
-            _mapBox.Map.ZoomToExtents();
+            // Zoom for the first one only
+            if (_mapBox.Map.Layers.Count == 2)
+                _mapBox.Map.ZoomToExtents();
             _mapBox.Refresh();
-            //_mapBox.ActiveTool = SharpMap.Forms.MapBox.Tools.Pan;
         }
 
-        // get layer by name (set in constructor - Controller)
+        // Get layer by name (set in constructor - Controller)
         public ILayer GetLayerByName(string layerName)
         {
             return _mapBox.Map.GetLayerByName(layerName);
         }
 
-        // remove the given layer from the map
+        // Remove the given layer from the map
         public void RemoveLayer(ILayer layer)
         {
             _mapBox.Map.Layers.Remove(layer);
@@ -119,19 +111,28 @@ namespace NRMap
         private void RbRoads_CheckedChanged(object sender, EventArgs e)
         {
             if (_rbRoads.Checked)
+            {
                 _controller.ActiveLayer = Constants.roadsTable;
+                _lbLayerDescription.Text = Constants.roadsLayerDescr;
+            }
         }
 
         private void RbNR_CheckedChanged(object sender, EventArgs e)
         {
             if (_rbNR.Checked)
+            {
                 _controller.ActiveLayer = Constants.nrTable;
+                _lbLayerDescription.Text = Constants.nrLayerDescr;
+            }
         }
 
         private void RbWaters_CheckedChanged(object sender, EventArgs e)
         {
             if (_rbWaters.Checked)
+            {
                 _controller.ActiveLayer = Constants.watersTable;
+                _lbLayerDescription.Text = Constants.watersLayerDescr;
+            }
         }
 
         private void MapBox_MouseClick(object sender, MouseEventArgs e)
@@ -139,11 +140,10 @@ namespace NRMap
             try
             {
                 _lastClick = _mapBox.Map.ImageToWorld(new System.Drawing.PointF(e.X, e.Y));
-                //_mapBox.Map.Center.X = p.X;
-                //_mapBox.Map.Center.Y = p.Y;
-                //_mapBox.Refresh();
                 _tbBBoxMp.Text = _lastClick.X + "  " + _lastClick.Y;
-                _controller.OnMapMouseClick(_lastClick);
+
+                if (!_cbActivatePan.Checked)
+                    _controller.OnMapMouseClick(_lastClick);
             }
             catch (Exception exception)
             {
@@ -241,9 +241,9 @@ namespace NRMap
                 double bboxW = Double.Parse(_tbBBoxW.Text);
 
                 double[] topLeft = { _lastClick.X, _lastClick.Y };
-                //double[] bottomleft = { _lastClick.X, _lastClick.Y + bboxH };
+                //double[] bottomleft = { _lastClick.X, _lastClick.Y - bboxH };
                 //double[] topRight = { _lastClick.X + bboxW, _lastClick.Y };
-                double[] bottomRight = { _lastClick.X + bboxW, _lastClick.Y + bboxH};
+                double[] bottomRight = { _lastClick.X + bboxW, _lastClick.Y - bboxH};
 
                 IList<double[]> coordinates = new List<double[]>()
                 {
@@ -262,50 +262,27 @@ namespace NRMap
             }
             
         }
-        #endregion
 
-        // https://github.com/SharpMap/SharpMapV2/blob/master/SharpMap.Data.Providers/PostGisProvider/PostGisProvider.cs
-        private void Button1_Click(object sender, EventArgs e)
+        private void BtnPickQRColor_Click(object sender, EventArgs e)
         {
-            SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.roadsTable, Constants.geomName, Constants.idName)
+            if (_colorPicker.ShowDialog() == DialogResult.OK)
             {
-                DefinitionQuery = "fclass = \'primary\' or fclass = \'secondary\' or fclass = \'motorway_link\'"
-            };
-
-            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
-            postGisProv.Open();
-            GeoAPI.Geometries.Envelope envelope = postGisProv.GetExtents();
-            postGisProv.ExecuteIntersectionQuery(envelope, fds);
-            postGisProv.Close();
-
-            //DataTable dt = new DataTable("Test");
-            //foreach (DataColumn col in fds.Tables[0].Columns)
-            //    if (col.ColumnName != Constants.geomName)
-            //        dt.Columns.Add(col.ColumnName, col.DataType, col.Expression);
-
-            //foreach (DataRow dr in fds.Tables[0].Rows)
-            //{
-            //    DataRow newRow = dt.NewRow();
-            //    foreach (DataColumn col in fds.Tables[0].Columns)
-            //        if (col.ColumnName != Constants.geomName)
-            //            newRow[col.ColumnName] = dr[col];
-            //    dt.Rows.Add(newRow);
-            //}
-            _dataGridView.Columns.Clear();
-            _dataGridView.DataSource = fds.Tables[0];
-
-
-
+                _btnPickQRColor.BackColor = _colorPicker.Color;
+            }
         }
 
-        // djubre vraca sve iz podatke iz sloja
-        private void _mapBox_MapQueried(SharpMap.Data.FeatureDataTable data)
+        private void BtnQueryLayer_Click(object sender, EventArgs e)
         {
-            //_dataGridView.DataSource = data;
-            //MessageBox.Show(data.Rows.Count.ToString());
+            try
+            {
+                _controller.OnQueryLayer(_rtbQuery.Text, _colorPicker.Color);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                //MessageBox.Show(exception.ToString());
+            }
         }
-
-
+        #endregion
     }
 }

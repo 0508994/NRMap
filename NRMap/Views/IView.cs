@@ -1,18 +1,14 @@
-﻿using NRMap.Controllers;
-using SharpMap.Layers;
-using System.Data;
-
-namespace NRMap.Views
+﻿namespace NRMap.Views
 {
     public interface IView
     {
-        void AddListener(IController controller);
+        void AddListener(Controllers.IController controller);
 
         string TextCoord { set; }
-        DataTable DataGridView { set; }
+        System.Data.DataTable DataGridView { set; }
 
-        void AddLayer(ILayer layer);
-        ILayer GetLayerByName(string layerName);
-        void RemoveLayer(ILayer layer);
+        void AddLayer(SharpMap.Layers.ILayer layer);
+        SharpMap.Layers.ILayer GetLayerByName(string layerName);
+        void RemoveLayer(SharpMap.Layers.ILayer layer);
     }
 }

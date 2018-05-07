@@ -134,6 +134,7 @@
     <Compile Include="GdalNativeConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\StyleCreator.cs" />
     <Compile Include="Views\IView.cs" />
     <EmbeddedResource Include="MapForm.resx">
       <DependentUpon>MapForm.cs</DependentUpon>

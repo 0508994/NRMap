@@ -22,15 +22,35 @@
         public const string watersTable = "public.\"gis.osm_water_a_free_1\"";
         #endregion
 
-        #region Layer and Label names
+        #region Layer Info
         public const string roadsLayerName = "Roads";
         public const string roadsLabelName = "RoadsLabels";
+        public const string roadsLayerDescr = "Columns:\nfclass(char[ ]), name(char[ ]), maxspeed(number)\noneway[B or F], bridge[T or F], tunnel[T or F]";
 
         public const string nrLayerName = "NaturalResources";
         public const string nrLabelName = "NaturalResourcesLabel";
+        public const string nrLayerDescr = "Columns:\nfclass(char[ ]), name(char[ ])";
 
         public const string watersLayerName = "Waters";
         public const string watersLabelName = "WaterLabel";
+        public const string watersLayerDescr = "Columns:\nfclass(char[ ]), name(char[ ])";
+
+        public const string queryLayerName = "Query";
+        public const string queryLabelName = "QueryLabel";
         #endregion
+
+
+        public static string GetLayersLabelName(string layerName)
+        {
+            System.Collections.Generic.Dictionary<string, string> layerLabels =
+                new System.Collections.Generic.Dictionary<string, string>()
+            {
+                { roadsLayerName, roadsLabelName },
+                { nrLayerName, nrLabelName },
+                { watersLayerName, watersLabelName },
+            };
+
+            return layerLabels[layerName];
+        }
     }
 }

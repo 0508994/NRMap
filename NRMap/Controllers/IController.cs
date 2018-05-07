@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NRMap.Controllers
+﻿namespace NRMap.Controllers
 {
     public interface IController
     {
@@ -9,12 +7,14 @@ namespace NRMap.Controllers
 
         void OnMapMouseMoved(GeoAPI.Geometries.Coordinate point);
         void OnMapMouseClick(GeoAPI.Geometries.Coordinate point);
+
         void OnAddRoadsLayer();
-        void OnAddNRLayer(string query=null);
+        void OnAddNRLayer();
         void OnAddWatersLayer();
 
         void OnRemoveLayer(string layerName);
 
-        void OnReturnBBoxFeatures(IList<double[]> bounds);
+        void OnReturnBBoxFeatures(System.Collections.Generic.IList<double[]> bounds);
+        void OnQueryLayer(string query, System.Drawing.Color resultColor);
     }
 }

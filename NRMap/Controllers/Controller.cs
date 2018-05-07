@@ -155,6 +155,9 @@ namespace NRMap.Controllers
 
         public void OnAddRoadsLayer()
         {
+            if (_view.GetLayerByName(Constants.roadsLayerName) != null)
+                return;
+
             SharpMap.Data.Providers.PostGIS postGisProv = new
                 SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.roadsTable, Constants.geomName, Constants.idName)
             {
@@ -166,29 +169,16 @@ namespace NRMap.Controllers
                 DataSource = postGisProv
             };
 
-            // style used to render primary roads { fclass = primary }
-            VectorStyle primaryRoadStyle = new VectorStyle()
+            System.Drawing.Pen primaryRoadPen = new System.Drawing.Pen(new System.Drawing.SolidBrush(System.Drawing.Color.Red))
             {
-                Line = System.Drawing.Pens.Red
-            };
-
-            // style used for rendering secondary roads { fclass = secondary }
-            VectorStyle secondaryRoadStyle = new VectorStyle()
-            {
-                Line = System.Drawing.Pens.Orange
-            };
-
-            // style used for rendering motorway links { fclass = motorway_link }
-            VectorStyle motorwayLinkStyle = new VectorStyle()
-            {
-                Line = System.Drawing.Pens.Olive
+                Width = 1.5f
             };
 
             Dictionary<string, IStyle> styles = new Dictionary<string, IStyle>()
             {
-                { "primary", primaryRoadStyle },
-                { "secondary", secondaryRoadStyle },
-                { "motorway_link", motorwayLinkStyle }
+                { "primary", new VectorStyle() { Line = primaryRoadPen } },
+                { "secondary", new VectorStyle() { Line = System.Drawing.Pens.Orange } },
+                { "motorway_link", new VectorStyle() { Line = System.Drawing.Pens.Olive } }
             };
 
             roadsLayer.Theme = new SharpMap.Rendering.Thematics.UniqueValuesTheme<string>("fclass",
@@ -198,7 +188,8 @@ namespace NRMap.Controllers
             {
                 DataSource = roadsLayer.DataSource,
                 Enabled = true,
-                LabelColumn = "name"
+                LabelColumn = "name",
+                MaxVisible = 0.3f
             };
 
             //SetCtAndRct(roadsLayer);
@@ -208,13 +199,13 @@ namespace NRMap.Controllers
             _view.AddLayer(roadLabel);
         }
 
-        public void OnAddNRLayer(string query=null)
+        public void OnAddNRLayer()
         {
+            if (_view.GetLayerByName(Constants.nrLayerName) != null)
+                return;
+
             SharpMap.Data.Providers.PostGIS postGisProv = new
-                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.nrTable, Constants.geomName, Constants.idName)
-            {
-                DefinitionQuery = query
-            };
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.nrTable, Constants.geomName, Constants.idName);
 
             VectorLayer nrLayer = new VectorLayer(Constants.nrLayerName)
             {
@@ -252,6 +243,9 @@ namespace NRMap.Controllers
 
         public void OnAddWatersLayer()
         {
+            if (_view.GetLayerByName(Constants.watersLayerName) != null)
+                return;
+
             SharpMap.Data.Providers.PostGIS postGisProv = new
                 SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.watersTable, Constants.geomName, Constants.idName);
 
@@ -291,7 +285,6 @@ namespace NRMap.Controllers
 
             _view.AddLayer(watersLayer);
             _view.AddLayer(watersLabel);
-
         }
         
         public void OnRemoveLayer(string layerName)
@@ -306,13 +299,9 @@ namespace NRMap.Controllers
             //ICoordinateTransformation cTrans = cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
             //point = cTrans.MathTransform.Transform(point);
 
-            //IGeometryFactory gFact = new GeometryFactory();
-            //IGeometry geom = gFact.CreatePoint(point);
+            Envelope envelope = new Envelope(point.X, point.X + 0.014f, point.Y, point.Y - 0.013f);
 
-            Envelope geom = new Envelope(point);
-
-            GetEnvelopeIntersections(geom);
-
+            GetEnvelopeIntersections(envelope);
         }
 
         public void OnReturnBBoxFeatures(IList<double[]> bounds)
@@ -325,8 +314,78 @@ namespace NRMap.Controllers
 
             GetEnvelopeIntersections(bbox);
         }
+
+        public void OnQueryLayer(string query, System.Drawing.Color resultColor)
+        {
+            // Create the postGis provider object, and init it's query property with the passed query
+            SharpMap.Data.Providers.PostGIS postGisProv = new
+                SharpMap.Data.Providers.PostGIS(Constants.connStr, _activeLayer, Constants.geomName, Constants.idName)
+            {
+                DefinitionQuery = query
+            };
+
+            SharpMap.Rendering.Thematics.ITheme theme = null;
+            System.Drawing.Brush queryResultBrush = new System.Drawing.SolidBrush(resultColor);
+
+            // Create a theme based on the active layer
+            if (_activeLayer == Constants.roadsTable)
+            {
+                System.Drawing.Pen queryResultPen = new System.Drawing.Pen(queryResultBrush);
+                theme = new SharpMap.Rendering.Thematics.CustomTheme( (SharpMap.Data.FeatureDataRow fdr)
+                    => { return new VectorStyle() { Line = queryResultPen }; } );
+            }
+            else if (_activeLayer == Constants.nrTable)
+            {
+                theme = new SharpMap.Rendering.Thematics.CustomTheme( (SharpMap.Data.FeatureDataRow fdr)
+                    => { return new VectorStyle() { PointColor = queryResultBrush, PointSize = 3f }; } );
+            }
+            else
+            {
+                theme = new SharpMap.Rendering.Thematics.CustomTheme( (SharpMap.Data.FeatureDataRow fdr)
+                    => { return new VectorStyle() { Fill = queryResultBrush }; } );
+            }
+
+            // Create the resulting vector layer object for query result, and set the created theme
+            VectorLayer resultingLayer = new VectorLayer(Constants.queryLayerName)
+            {
+                DataSource = postGisProv,
+                Theme = theme
+            };
+
+            // Create label of the results
+            LabelLayer resultingLabel = new LabelLayer(Constants.queryLabelName)
+            {
+                DataSource = resultingLayer.DataSource,
+                Enabled = true,
+                LabelColumn = "name",
+                MaxVisible = 0.3f
+            };
+
+            try
+            {
+                // NPGSQL exception handle ruins the map by returning an empty layer
+                // Getting an envelope when query is invalid triggers an exception
+                SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+                postGisProv.Open();
+                Envelope envelope = resultingLayer.Envelope; // <----- Exception
+                postGisProv.ExecuteIntersectionQuery(envelope, fds);
+                postGisProv.Close();
+
+                // Remove the previous query result if it exists
+                OnRemoveLayer(Constants.queryLayerName);
+                OnRemoveLayer(Constants.queryLabelName);
+
+                // Add the results to the map
+                _view.AddLayer(resultingLayer);
+                _view.AddLayer(resultingLabel);
+                _view.DataGridView = fds.Tables[0];
+            }
+            catch (System.Exception e)
+            {
+                System.Console.Write(e.Message);
+                return;
+            }
+        }
         #endregion
-
-
     }
 }

@@ -35,6 +35,7 @@
             this._gb1 = new System.Windows.Forms.GroupBox();
             this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
+            this._btnRmQR = new System.Windows.Forms.Button();
             this._btnPickQRColor = new System.Windows.Forms.Button();
             this._lbLayerDescription = new System.Windows.Forms.Label();
             this._btnQueryLayer = new System.Windows.Forms.Button();
@@ -57,6 +58,8 @@
             this._dataGridView = new System.Windows.Forms.DataGridView();
             this._gb3 = new System.Windows.Forms.GroupBox();
             this._colorPicker = new System.Windows.Forms.ColorDialog();
+            this._btnAdvanceQ = new System.Windows.Forms.Button();
+            this._btnRouting = new System.Windows.Forms.Button();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
@@ -77,7 +80,7 @@
             this._mapBox.SelectionBackColor = System.Drawing.Color.White;
             this._mapBox.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
             this._mapBox.ShowProgressUpdate = false;
-            this._mapBox.Size = new System.Drawing.Size(437, 481);
+            this._mapBox.Size = new System.Drawing.Size(446, 490);
             this._mapBox.TabIndex = 0;
             this._mapBox.Text = "mapBox";
             this._mapBox.WheelZoomMagnitude = -2D;
@@ -112,7 +115,7 @@
             this._gb1.Controls.Add(this._lbTextCoord);
             this._gb1.Location = new System.Drawing.Point(12, 12);
             this._gb1.Name = "_gb1";
-            this._gb1.Size = new System.Drawing.Size(452, 519);
+            this._gb1.Size = new System.Drawing.Size(458, 528);
             this._gb1.TabIndex = 3;
             this._gb1.TabStop = false;
             this._gb1.Text = "Map";
@@ -130,6 +133,9 @@
             // 
             // _gb2
             // 
+            this._gb2.Controls.Add(this._btnRouting);
+            this._gb2.Controls.Add(this._btnAdvanceQ);
+            this._gb2.Controls.Add(this._btnRmQR);
             this._gb2.Controls.Add(this._btnPickQRColor);
             this._gb2.Controls.Add(this._lbLayerDescription);
             this._gb2.Controls.Add(this._btnQueryLayer);
@@ -151,16 +157,26 @@
             this._gb2.Controls.Add(this._btnAddRoads);
             this._gb2.Location = new System.Drawing.Point(774, 12);
             this._gb2.Name = "_gb2";
-            this._gb2.Size = new System.Drawing.Size(247, 519);
+            this._gb2.Size = new System.Drawing.Size(247, 528);
             this._gb2.TabIndex = 4;
             this._gb2.TabStop = false;
             this._gb2.Text = "Controls";
             // 
+            // _btnRmQR
+            // 
+            this._btnRmQR.Location = new System.Drawing.Point(129, 441);
+            this._btnRmQR.Name = "_btnRmQR";
+            this._btnRmQR.Size = new System.Drawing.Size(113, 23);
+            this._btnRmQR.TabIndex = 22;
+            this._btnRmQR.Text = "Remove Result";
+            this._btnRmQR.UseVisualStyleBackColor = true;
+            this._btnRmQR.Click += new System.EventHandler(this.BtnRmQR_Click);
+            // 
             // _btnPickQRColor
             // 
-            this._btnPickQRColor.Location = new System.Drawing.Point(6, 432);
+            this._btnPickQRColor.Location = new System.Drawing.Point(10, 412);
             this._btnPickQRColor.Name = "_btnPickQRColor";
-            this._btnPickQRColor.Size = new System.Drawing.Size(235, 23);
+            this._btnPickQRColor.Size = new System.Drawing.Size(231, 23);
             this._btnPickQRColor.TabIndex = 21;
             this._btnPickQRColor.Text = "Pick Result Color";
             this._btnPickQRColor.UseVisualStyleBackColor = true;
@@ -170,7 +186,7 @@
             // 
             this._lbLayerDescription.AutoSize = true;
             this._lbLayerDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lbLayerDescription.Location = new System.Drawing.Point(6, 295);
+            this._lbLayerDescription.Location = new System.Drawing.Point(7, 281);
             this._lbLayerDescription.Name = "_lbLayerDescription";
             this._lbLayerDescription.Size = new System.Drawing.Size(35, 13);
             this._lbLayerDescription.TabIndex = 20;
@@ -179,9 +195,9 @@
             // 
             // _btnQueryLayer
             // 
-            this._btnQueryLayer.Location = new System.Drawing.Point(7, 461);
+            this._btnQueryLayer.Location = new System.Drawing.Point(10, 441);
             this._btnQueryLayer.Name = "_btnQueryLayer";
-            this._btnQueryLayer.Size = new System.Drawing.Size(234, 23);
+            this._btnQueryLayer.Size = new System.Drawing.Size(113, 23);
             this._btnQueryLayer.TabIndex = 19;
             this._btnQueryLayer.Text = "Query Layer";
             this._btnQueryLayer.UseVisualStyleBackColor = true;
@@ -190,11 +206,11 @@
             // _rtbQuery
             // 
             this._rtbQuery.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._rtbQuery.Location = new System.Drawing.Point(7, 342);
+            this._rtbQuery.Location = new System.Drawing.Point(9, 325);
             this._rtbQuery.Name = "_rtbQuery";
             this._rtbQuery.Size = new System.Drawing.Size(231, 81);
             this._rtbQuery.TabIndex = 18;
-            this._rtbQuery.Text = "";
+            this._rtbQuery.Text = "Enter query text here..";
             // 
             // _rbNR
             // 
@@ -352,24 +368,43 @@
             this._dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._dataGridView.Location = new System.Drawing.Point(6, 19);
             this._dataGridView.Name = "_dataGridView";
-            this._dataGridView.Size = new System.Drawing.Size(286, 494);
+            this._dataGridView.Size = new System.Drawing.Size(280, 503);
             this._dataGridView.TabIndex = 5;
             // 
             // _gb3
             // 
             this._gb3.Controls.Add(this._dataGridView);
-            this._gb3.Location = new System.Drawing.Point(470, 12);
+            this._gb3.Location = new System.Drawing.Point(476, 12);
             this._gb3.Name = "_gb3";
-            this._gb3.Size = new System.Drawing.Size(298, 519);
+            this._gb3.Size = new System.Drawing.Size(292, 528);
             this._gb3.TabIndex = 8;
             this._gb3.TabStop = false;
             this._gb3.Text = "Features";
+            // 
+            // _btnAdvanceQ
+            // 
+            this._btnAdvanceQ.Location = new System.Drawing.Point(9, 470);
+            this._btnAdvanceQ.Name = "_btnAdvanceQ";
+            this._btnAdvanceQ.Size = new System.Drawing.Size(233, 23);
+            this._btnAdvanceQ.TabIndex = 23;
+            this._btnAdvanceQ.Text = "Advance Queries";
+            this._btnAdvanceQ.UseVisualStyleBackColor = true;
+            this._btnAdvanceQ.Click += new System.EventHandler(this._btnAdvanceQ_Click);
+            // 
+            // _btnRouting
+            // 
+            this._btnRouting.Location = new System.Drawing.Point(9, 499);
+            this._btnRouting.Name = "_btnRouting";
+            this._btnRouting.Size = new System.Drawing.Size(233, 23);
+            this._btnRouting.TabIndex = 24;
+            this._btnRouting.Text = "Routing";
+            this._btnRouting.UseVisualStyleBackColor = true;
             // 
             // MapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 541);
+            this.ClientSize = new System.Drawing.Size(1025, 548);
             this.Controls.Add(this._gb3);
             this.Controls.Add(this._gb2);
             this.Controls.Add(this._gb1);
@@ -419,6 +454,9 @@
         private System.Windows.Forms.Label _lbLayerDescription;
         private System.Windows.Forms.Button _btnPickQRColor;
         private System.Windows.Forms.ColorDialog _colorPicker;
+        private System.Windows.Forms.Button _btnRmQR;
+        private System.Windows.Forms.Button _btnAdvanceQ;
+        private System.Windows.Forms.Button _btnRouting;
     }
 }
 

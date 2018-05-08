@@ -55,9 +55,6 @@ namespace NRMap.Controllers
                 cFact.CreateFromCoordinateSystems(GeographicCoordinateSystem.WGS84, ProjectedCoordinateSystem.WebMercator);
             layer.ReverseCoordinateTransformation =
                 cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
-
-            //double[] a = { 1.0, 2.0, 3.0 };
-            //layer.CoordinateTransformation.MathTransform.Transform(a);
         }
 
         // Coordinate transformation WebMercator <-> WGS84 (based on reverse param) (Only if using BruTile background layer)
@@ -385,6 +382,50 @@ namespace NRMap.Controllers
                 System.Console.Write(e.Message);
                 return;
             }
+        }
+
+        public void OnAdvanceQuery(string sourceTable, string targetTable, string sourceQUery, string targetQuery, IList<double> additionalParams)
+        {
+            //SharpMap.Data.Providers.PostGIS postGisProv = new
+            //    SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.watersTable, Constants.geomName, Constants.idName)
+            //{
+            //    DefinitionQuery = "_ST_Crosses("+Constants.geomName+", ST_GeomFromText('POLYGON((170 50,170 72,-130 72,-130 50,170 50))', 4326) )"
+            //};
+
+            //SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+            //postGisProv.Open();
+            ////
+            //postGisProv.ExecuteIntersectionQuery(postGisProv.GetExtents(), fds);
+            //postGisProv.Close();
+
+            //System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
+            //_view.DataGridView = fds.Tables[0];
+
+            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+
+            PostGISCustom pgs = new PostGISCustom(Constants.connStr, Constants.geomName);
+            string query = "select *, ST_AsBinary(geom) as sharpmap_tempgeometry from " + Constants.roadsTable + " where fclass = 'primary'";
+
+            pgs.QuerySQL = query;
+
+            pgs.ExecuteCustomQuery(fds);
+
+            _view.DataGridView = fds.Tables[0];
+
+            IList<IGeometry> geoms = new List<IGeometry>();
+
+            foreach (SharpMap.Data.FeatureDataRow fdr in fds.Tables[0].Rows)
+                geoms.Add(fdr.Geometry);
+
+            VectorLayer testLayer = new VectorLayer("manista")
+            {
+                DataSource = new SharpMap.Data.Providers.GeometryProvider(geoms)
+            };
+            testLayer.SRID = 4326;
+            _view.AddLayer(testLayer);
+            _view.AddLayer(testLayer);
+
+            
         }
         #endregion
     }

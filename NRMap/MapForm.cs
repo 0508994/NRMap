@@ -3,11 +3,8 @@ using System.Windows.Forms;
 using NRMap.Controllers;
 using NRMap.Views;
 using SharpMap.Layers;
-using ProjNet.CoordinateSystems;
-using ProjNet.CoordinateSystems.Transformations;
 using System.Data;
 using GeoAPI.Geometries;
-using Npgsql;
 using System.Collections.Generic;
 using NRMap.Utilities;
 
@@ -283,6 +280,35 @@ namespace NRMap
                 //MessageBox.Show(exception.ToString());
             }
         }
+
+        private void BtnRmQR_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnRemoveLayer(Constants.queryLayerName);
+                _controller.OnRemoveLayer(Constants.queryLabelName);
+                _dataGridView.Columns.Clear();
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show("Couldn't remove the layer.");
+            }
+        }
+
         #endregion
+
+        private void _btnAdvanceQ_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.OnAdvanceQuery(null, null, null, null, null);
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show(exception.ToString());
+            }
+        }
     }
 }

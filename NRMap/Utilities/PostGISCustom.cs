@@ -8,6 +8,7 @@ namespace NRMap.Utilities
 {
     public class PostGISCustom 
     {
+        private const string _tempGeom = "sharpmap_tempgeometry";
         private string _connString;
         private string _geomColumn;
         private string _querySQL;
@@ -92,6 +93,92 @@ namespace NRMap.Utilities
                     return geometries;
                 }
                 return null;
+            }
+        }
+
+
+
+
+        public void BuildWithinQuery(string sourceTable, string targetTable, string definitionQuery)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_Within(sl.{0}, tl.{0})",
+                _geomColumn, _tempGeom, sourceTable, targetTable,  definitionQuery);
+        }
+
+        public void BuildDWithinQuery(string sourceTable, string targetTable, string definitionQuery, double distance)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_DWithin(sl.{0}, tl.{0}, {5})",
+                _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery, distance);
+        }
+
+        public void BuildCrossesQuery(string sourceTable, string targetTable, string definitionQuery)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_Crosses(sl.{0}, tl.{0})",
+                _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
+        }
+
+        public void BuildOverlapsQuery(string sourceTable, string targetTable, string definitionQuery)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_Within(sl.{0}, tl.{0})",
+                _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
+        }
+
+        public void BuildTouchesQuery(string sourceTable, string targetTable, string definitionQuery)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_Touches(sl.{0}, tl.{0})",
+                _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
+        }
+
+        public void BuildIntersectsQuery(string sourceTable, string targetTable, string definitionQuery)
+        {
+            _querySQL = string.Format(
+                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "FROM {2} AS sl, {3} as tl " +
+                "WHERE {4} AND ST_Intersects(sl.{0}, tl.{0})",
+                _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
+        }
+
+        public void BuildRelationQuery(string sourceTable, string targetTable, string definitionQuery,
+            int opCode, double distance)
+        { 
+            switch (opCode)
+            {
+                case (Constants.within):
+                    BuildWithinQuery(sourceTable, targetTable, definitionQuery);
+                    break;
+                case (Constants.dWithin):
+                    BuildDWithinQuery(sourceTable, targetTable, definitionQuery, distance);
+                    break;
+                case (Constants.intersects):
+                    BuildIntersectsQuery(sourceTable, targetTable, definitionQuery);
+                    break;
+                case (Constants.touches):
+                    BuildTouchesQuery(sourceTable, targetTable, definitionQuery);
+                    break;
+                case (Constants.overlaps):
+                    BuildOverlapsQuery(sourceTable, targetTable, definitionQuery);
+                    break;
+                case (Constants.crosses):
+                    BuildCrossesQuery(sourceTable, targetTable, definitionQuery);
+                    break;
+                default:
+                    break;
+
             }
         }
     }

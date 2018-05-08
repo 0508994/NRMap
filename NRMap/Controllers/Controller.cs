@@ -21,7 +21,7 @@ namespace NRMap.Controllers
         // show real or UTM coordinates indicator
         private bool _bShowUTM;
         // Active Query layer
-        private string _activeLayer = Constants.roadsTable; // TODO:
+        private string _activeLayer = Constants.roadsTable;
 
         public bool BShowUTM
         {
@@ -292,11 +292,7 @@ namespace NRMap.Controllers
 
         public void OnMapMouseClick(Coordinate point)
         {
-            //CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
-            //ICoordinateTransformation cTrans = cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
-            //point = cTrans.MathTransform.Transform(point);
-
-            Envelope envelope = new Envelope(point.X, point.X + 0.014f, point.Y, point.Y - 0.013f);
+            Envelope envelope = new Envelope(point.X, point.X + 0.017f, point.Y, point.Y - 0.017f);
 
             GetEnvelopeIntersections(envelope);
         }
@@ -384,7 +380,8 @@ namespace NRMap.Controllers
             }
         }
 
-        public void OnAdvanceQuery(string sourceTable, string targetTable, string sourceQUery, string targetQuery, IList<double> additionalParams)
+        public void OnAdvanceQuery(string sourceTable, string targetTable, string definitionQuery,
+            System.Drawing.Color resultColor, int opCode, IList<double> additionalParams)
         {
             //SharpMap.Data.Providers.PostGIS postGisProv = new
             //    SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.watersTable, Constants.geomName, Constants.idName)
@@ -404,10 +401,11 @@ namespace NRMap.Controllers
             SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
 
             PostGISCustom pgs = new PostGISCustom(Constants.connStr, Constants.geomName);
-            string query = "select *, ST_AsBinary(geom) as sharpmap_tempgeometry from " + Constants.roadsTable + " where fclass = 'primary'";
+            //string query = "select *, ST_AsBinary(geom) as sharpmap_tempgeometry from " + Constants.roadsTable + " where fclass = 'primary'";
 
-            pgs.QuerySQL = query;
+            //pgs.QuerySQL = query;
 
+            pgs.BuildDWithinQuery(Constants.roadsTable, Constants.watersTable, "sl.fclass='primary' and tl.fclass='river'", 0.2);
             pgs.ExecuteCustomQuery(fds);
 
             _view.DataGridView = fds.Tables[0];

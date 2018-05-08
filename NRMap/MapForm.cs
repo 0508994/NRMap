@@ -298,16 +298,23 @@ namespace NRMap
 
         #endregion
 
+        // TODO:
         private void _btnAdvanceQ_Click(object sender, EventArgs e)
         {
+            SpatialQueriesForm sqf = new SpatialQueriesForm();
             try
             {
-                _controller.OnAdvanceQuery(null, null, null, null, null);
+                //_controller.OnAdvanceQuery(null, null, null, null, System.Drawing.Color.Aqua, 0, null);
+                sqf.ShowDialog();
             }
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
                 MessageBox.Show(exception.ToString());
+            }
+            finally
+            {
+                sqf.Dispose();
             }
         }
     }

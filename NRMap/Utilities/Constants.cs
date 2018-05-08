@@ -39,18 +39,15 @@
         public const string queryLabelName = "QueryLabel";
         #endregion
 
+        #region Operation Codes
+        public const int within = 1;
+        public const int dWithin = 2;
+        public const int intersects = 3;
+        public const int touches = 4;
+        public const int overlaps = 5;
+        public const int crosses = 6;
+        #endregion
 
-        public static string GetLayersLabelName(string layerName)
-        {
-            System.Collections.Generic.Dictionary<string, string> layerLabels =
-                new System.Collections.Generic.Dictionary<string, string>()
-            {
-                { roadsLayerName, roadsLabelName },
-                { nrLayerName, nrLabelName },
-                { watersLayerName, watersLabelName },
-            };
 
-            return layerLabels[layerName];
-        }
     }
 }

@@ -121,6 +121,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpatialQueriesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpatialQueriesForm.Designer.cs">
+      <DependentUpon>SpatialQueriesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\IController.cs" />
@@ -150,6 +156,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SpatialQueriesForm.resx">
+      <DependentUpon>SpatialQueriesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

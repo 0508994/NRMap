@@ -16,8 +16,10 @@
 
         void OnReturnBBoxFeatures(System.Collections.Generic.IList<double[]> bounds);
         void OnQueryLayer(string query, System.Drawing.Color resultColor);
-
         void OnAdvanceQuery(string sourceTable, string targetTable, string definitionQuery,
             int opCode, double additionalParam);
+
+        void OnFindRoute(int source, int target);
+
     }
 }

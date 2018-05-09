@@ -18,9 +18,7 @@ namespace NRMap.Controllers
     {
         #region Attributes and Properties
         private IView _view;
-        // show real or UTM coordinates indicator
         private bool _bShowUTM;
-        // Active Query layer
         private string _activeLayer = Constants.roadsTable;
 
         public bool BShowUTM
@@ -47,7 +45,7 @@ namespace NRMap.Controllers
         }
 
         #region Private Methods
-        // Set coordinate transformation and reverse coordinate transformation of a given layer (Only if using BruTile background layer)
+        // NOT USED
         private void SetCtAndRct(Layer layer)
         {
             CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
@@ -57,7 +55,7 @@ namespace NRMap.Controllers
                 cFact.CreateFromCoordinateSystems(ProjectedCoordinateSystem.WebMercator, GeographicCoordinateSystem.WGS84);
         }
 
-        // Coordinate transformation WebMercator <-> WGS84 (based on reverse param) (Only if using BruTile background layer)
+        // NOT USED
         private IList<double[]> TransformCords(IList<double[]> coordinates, bool reverse=true)
         {
             CoordinateTransformationFactory cFact = new CoordinateTransformationFactory();
@@ -129,7 +127,7 @@ namespace NRMap.Controllers
         }
         #endregion
 
-        #region Event Handling
+        #region Event Handling - Main Logic
         public void OnMapMouseMoved(Coordinate point)
         {
             if (_bShowUTM)
@@ -390,6 +388,31 @@ namespace NRMap.Controllers
             pgs.BuildRelationQuery(sourceTable, targetTable, definitionQuery, opCode, additionalParam);
             IList<IGeometry> geoms = pgs.ExecuteCustomQuery(ds);
 
+
+            VectorLayer queryLayer = new VectorLayer(Constants.queryLayerName)
+            {
+                DataSource = new SharpMap.Data.Providers.GeometryProvider(geoms),
+                SRID = 4326
+            };
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                OnRemoveLayer(Constants.queryLayerName);
+                OnRemoveLayer(Constants.queryLabelName);
+
+                _view.DataGridView = ds.Tables[0];
+                _view.AddLayer(queryLayer);
+            }
+        }
+
+        public void OnFindRoute(int source, int target)
+        {
+            System.Data.DataSet ds = new System.Data.DataSet();
+
+            PostGISCustom pgs = new PostGISCustom(Constants.connStr, Constants.geomName);
+
+            pgs.BuildDijkstraQuery(source, target, Constants.roadsTable, Constants.idName);
+            IList<IGeometry> geoms = pgs.ExecuteCustomQuery(ds);
 
             VectorLayer queryLayer = new VectorLayer(Constants.queryLayerName)
             {

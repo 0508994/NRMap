@@ -14,6 +14,8 @@ namespace NRMap
     {
         private IController _controller;
         private Coordinate _lastClick = null;
+        private int _routingSource = -1;
+        private int _routingTarget = -1;
 
         public MapForm()
         {
@@ -318,7 +320,7 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
-                MessageBox.Show(exception.ToString());
+                MessageBox.Show(exception.Message);
             }
             finally
             {
@@ -326,8 +328,48 @@ namespace NRMap
             }
         }
 
+        private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                DataGridViewTextBoxCell cell = (DataGridViewTextBoxCell)
+                    _dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                string columnName = _dataGridView.Columns[e.ColumnIndex].Name;
+
+                if (columnName == "source")
+                {
+                    _routingSource = (int)cell.Value;
+                    MessageBox.Show("Routing source set to " + _routingSource + ".");
+                }
+                else if (columnName == "target")
+                {
+                    _routingTarget = (int)cell.Value;
+                    MessageBox.Show("Routing target set to " + _routingTarget + ".");
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+            }
+
+        }
+
+        private void BtnRouting_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_routingSource != -1 && _routingTarget != -1)
+                    _controller.OnFindRoute(_routingSource, _routingTarget);
+                else
+                    MessageBox.Show("Please set routing source and routing target first.");
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.Message);
+                MessageBox.Show(exception.ToString());
+            }
+        }
         #endregion
-
-
     }
 }

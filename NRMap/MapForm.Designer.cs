@@ -35,6 +35,8 @@
             this._gb1 = new System.Windows.Forms.GroupBox();
             this._cbActivatePan = new System.Windows.Forms.CheckBox();
             this._gb2 = new System.Windows.Forms.GroupBox();
+            this._btnRouting = new System.Windows.Forms.Button();
+            this._btnAdvanceQ = new System.Windows.Forms.Button();
             this._btnRmQR = new System.Windows.Forms.Button();
             this._btnPickQRColor = new System.Windows.Forms.Button();
             this._lbLayerDescription = new System.Windows.Forms.Label();
@@ -58,8 +60,6 @@
             this._dataGridView = new System.Windows.Forms.DataGridView();
             this._gb3 = new System.Windows.Forms.GroupBox();
             this._colorPicker = new System.Windows.Forms.ColorDialog();
-            this._btnAdvanceQ = new System.Windows.Forms.Button();
-            this._btnRouting = new System.Windows.Forms.Button();
             this._gb1.SuspendLayout();
             this._gb2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
@@ -162,11 +162,31 @@
             this._gb2.TabStop = false;
             this._gb2.Text = "Controls";
             // 
+            // _btnRouting
+            // 
+            this._btnRouting.Location = new System.Drawing.Point(10, 470);
+            this._btnRouting.Name = "_btnRouting";
+            this._btnRouting.Size = new System.Drawing.Size(232, 23);
+            this._btnRouting.TabIndex = 24;
+            this._btnRouting.Text = "Routing";
+            this._btnRouting.UseVisualStyleBackColor = true;
+            this._btnRouting.Click += new System.EventHandler(this.BtnRouting_Click);
+            // 
+            // _btnAdvanceQ
+            // 
+            this._btnAdvanceQ.Location = new System.Drawing.Point(127, 441);
+            this._btnAdvanceQ.Name = "_btnAdvanceQ";
+            this._btnAdvanceQ.Size = new System.Drawing.Size(113, 23);
+            this._btnAdvanceQ.TabIndex = 23;
+            this._btnAdvanceQ.Text = "Advance Queries";
+            this._btnAdvanceQ.UseVisualStyleBackColor = true;
+            this._btnAdvanceQ.Click += new System.EventHandler(this.BtnAdvanceQ_Click);
+            // 
             // _btnRmQR
             // 
-            this._btnRmQR.Location = new System.Drawing.Point(129, 441);
+            this._btnRmQR.Location = new System.Drawing.Point(10, 499);
             this._btnRmQR.Name = "_btnRmQR";
-            this._btnRmQR.Size = new System.Drawing.Size(113, 23);
+            this._btnRmQR.Size = new System.Drawing.Size(229, 23);
             this._btnRmQR.TabIndex = 22;
             this._btnRmQR.Text = "Remove Result";
             this._btnRmQR.UseVisualStyleBackColor = true;
@@ -370,6 +390,7 @@
             this._dataGridView.Name = "_dataGridView";
             this._dataGridView.Size = new System.Drawing.Size(280, 503);
             this._dataGridView.TabIndex = 5;
+            this._dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
             // 
             // _gb3
             // 
@@ -380,25 +401,6 @@
             this._gb3.TabIndex = 8;
             this._gb3.TabStop = false;
             this._gb3.Text = "Features";
-            // 
-            // _btnAdvanceQ
-            // 
-            this._btnAdvanceQ.Location = new System.Drawing.Point(9, 470);
-            this._btnAdvanceQ.Name = "_btnAdvanceQ";
-            this._btnAdvanceQ.Size = new System.Drawing.Size(233, 23);
-            this._btnAdvanceQ.TabIndex = 23;
-            this._btnAdvanceQ.Text = "Advance Queries";
-            this._btnAdvanceQ.UseVisualStyleBackColor = true;
-            this._btnAdvanceQ.Click += new System.EventHandler(this.BtnAdvanceQ_Click);
-            // 
-            // _btnRouting
-            // 
-            this._btnRouting.Location = new System.Drawing.Point(9, 499);
-            this._btnRouting.Name = "_btnRouting";
-            this._btnRouting.Size = new System.Drawing.Size(233, 23);
-            this._btnRouting.TabIndex = 24;
-            this._btnRouting.Text = "Routing";
-            this._btnRouting.UseVisualStyleBackColor = true;
             // 
             // MapForm
             // 

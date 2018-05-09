@@ -13,7 +13,8 @@
         public const string idName = "gid";
 
         // Name of the table for the roads layer [Line]
-        public const string roadsTable = "public.\"gis.osm_roads_free_1\"";
+        // public const string roadsTable = "public.\"gis.osm_roads_free_1\"";
+        public const string roadsTable = "roads_routing";
 
         // Name of the natural resources table  [Point]
         public const string nrTable = "public.\"gis.osm_natural_free_1\"";

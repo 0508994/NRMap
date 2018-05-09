@@ -103,7 +103,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_Within(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable,  definitionQuery);
@@ -115,7 +115,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_DWithin(sl.{0}, tl.{0}, {5})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery, distance);
@@ -127,7 +127,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_Crosses(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
@@ -139,7 +139,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_Overlaps(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
@@ -151,7 +151,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_Touches(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
@@ -163,7 +163,7 @@ namespace NRMap.Utilities
                 definitionQuery += " AND";
 
             _querySQL = string.Format(
-                "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
+                "SELECT DISTINCT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
                 "WHERE {4} ST_Intersects(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);

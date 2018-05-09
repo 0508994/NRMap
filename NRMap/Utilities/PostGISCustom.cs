@@ -42,15 +42,15 @@ namespace NRMap.Utilities
                 {
                     FeatureDataTable fdt = new FeatureDataTable(ds1.Tables[0]);
                     foreach (DataColumn col in ds1.Tables[0].Columns)
-                        if (col.ColumnName != _geomColumn && col.ColumnName != "sharpmap_tempgeometry")
+                        if (col.ColumnName != _geomColumn && col.ColumnName != _tempGeom)
                             fdt.Columns.Add(col.ColumnName, col.DataType, col.Expression);
                     foreach (DataRow dr in ds1.Tables[0].Rows)
                     {
                         FeatureDataRow fdr = fdt.NewRow();
                         foreach (DataColumn col in ds1.Tables[0].Columns)
-                            if (col.ColumnName != _geomColumn && col.ColumnName != "sharpmap_tempgeometry")
+                            if (col.ColumnName != _geomColumn && col.ColumnName != _tempGeom)
                                 fdr[col.ColumnName] = dr[col];
-                        fdr.Geometry = SharpMap.Converters.WellKnownBinary.GeometryFromWKB.Parse((byte[]) dr["sharpmap_tempgeometry"], gFactory);
+                        fdr.Geometry = SharpMap.Converters.WellKnownBinary.GeometryFromWKB.Parse((byte[]) dr[_tempGeom], gFactory);
                         fdt.AddRow(fdr);
                     }
                     fds.Tables.Add(fdt);
@@ -78,15 +78,15 @@ namespace NRMap.Utilities
                 {
                     FeatureDataTable fdt = new FeatureDataTable(ds1.Tables[0]);
                     foreach (DataColumn col in ds1.Tables[0].Columns)
-                        if (col.ColumnName != _geomColumn && col.ColumnName != "sharpmap_tempgeometry")
+                        if (col.ColumnName != _geomColumn && col.ColumnName != _tempGeom)
                             fdt.Columns.Add(col.ColumnName, col.DataType, col.Expression);
                     foreach (DataRow dr in ds1.Tables[0].Rows)
                     {
                         FeatureDataRow fdr = fdt.NewRow();
                         foreach (DataColumn col in ds1.Tables[0].Columns)
-                            if (col.ColumnName != _geomColumn && col.ColumnName != "sharpmap_tempgeometry")
+                            if (col.ColumnName != _geomColumn && col.ColumnName != _tempGeom)
                                 fdr[col.ColumnName] = dr[col];
-                        geometries.Add(SharpMap.Converters.WellKnownBinary.GeometryFromWKB.Parse((byte[])dr["sharpmap_tempgeometry"], gFactory));
+                        geometries.Add(SharpMap.Converters.WellKnownBinary.GeometryFromWKB.Parse((byte[])dr[_tempGeom], gFactory));
                         fdt.AddRow(fdr);
                     }
                     ds.Tables.Add(fdt);
@@ -97,64 +97,80 @@ namespace NRMap.Utilities
         }
 
 
-
-
-        public void BuildWithinQuery(string sourceTable, string targetTable, string definitionQuery)
+        private void BuildWithinQuery(string sourceTable, string targetTable, string definitionQuery)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_Within(sl.{0}, tl.{0})",
+                "WHERE {4} ST_Within(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable,  definitionQuery);
         }
 
-        public void BuildDWithinQuery(string sourceTable, string targetTable, string definitionQuery, double distance)
+        private void BuildDWithinQuery(string sourceTable, string targetTable, string definitionQuery, double distance)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_DWithin(sl.{0}, tl.{0}, {5})",
+                "WHERE {4} ST_DWithin(sl.{0}, tl.{0}, {5})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery, distance);
         }
 
-        public void BuildCrossesQuery(string sourceTable, string targetTable, string definitionQuery)
+        private void BuildCrossesQuery(string sourceTable, string targetTable, string definitionQuery)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_Crosses(sl.{0}, tl.{0})",
+                "WHERE {4} ST_Crosses(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
         }
 
-        public void BuildOverlapsQuery(string sourceTable, string targetTable, string definitionQuery)
+        private void BuildOverlapsQuery(string sourceTable, string targetTable, string definitionQuery)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_Within(sl.{0}, tl.{0})",
+                "WHERE {4} ST_Overlaps(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
         }
 
-        public void BuildTouchesQuery(string sourceTable, string targetTable, string definitionQuery)
+        private void BuildTouchesQuery(string sourceTable, string targetTable, string definitionQuery)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_Touches(sl.{0}, tl.{0})",
+                "WHERE {4} ST_Touches(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
         }
 
-        public void BuildIntersectsQuery(string sourceTable, string targetTable, string definitionQuery)
+        private void BuildIntersectsQuery(string sourceTable, string targetTable, string definitionQuery)
         {
+            if (!string.IsNullOrEmpty(definitionQuery))
+                definitionQuery += " AND";
+
             _querySQL = string.Format(
                 "SELECT sl.*, ST_AsBinary(sl.{0}) AS {1} " +
                 "FROM {2} AS sl, {3} as tl " +
-                "WHERE {4} AND ST_Intersects(sl.{0}, tl.{0})",
+                "WHERE {4} ST_Intersects(sl.{0}, tl.{0})",
                 _geomColumn, _tempGeom, sourceTable, targetTable, definitionQuery);
         }
 
         public void BuildRelationQuery(string sourceTable, string targetTable, string definitionQuery,
-            int opCode, double distance)
+            int opCode, double additionalParam)
         { 
             switch (opCode)
             {
@@ -162,7 +178,7 @@ namespace NRMap.Utilities
                     BuildWithinQuery(sourceTable, targetTable, definitionQuery);
                     break;
                 case (Constants.dWithin):
-                    BuildDWithinQuery(sourceTable, targetTable, definitionQuery, distance);
+                    BuildDWithinQuery(sourceTable, targetTable, definitionQuery, additionalParam);
                     break;
                 case (Constants.intersects):
                     BuildIntersectsQuery(sourceTable, targetTable, definitionQuery);
@@ -178,7 +194,6 @@ namespace NRMap.Utilities
                     break;
                 default:
                     break;
-
             }
         }
     }

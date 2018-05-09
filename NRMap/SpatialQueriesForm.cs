@@ -20,15 +20,7 @@ namespace NRMap
             _btnCancel.DialogResult = DialogResult.Cancel;
         }
 
-        private void BtnSetColor_Click(object sender, EventArgs e)
-        {
-            if (_colorPicker.ShowDialog() == DialogResult.OK)
-            {
-                _btnSetColor.BackColor = _colorPicker.Color;
-            }
-        }
-
-        public Color ResultColor { get { return _colorPicker.Color; } }
+        //public Color ResultColor { get { return _colorPicker.Color; } }
 
         public string SourceLayer
         {
@@ -72,6 +64,8 @@ namespace NRMap
             }
         }
 
-        public string DWithingDistance { get { return _tbDist.Text; } }
+        public string DWithinDistance { get { return _tbDist.Text; } }
+
+        public string DefinitionQuery { get { return _rtbSQuery.Text; } }
     }
 }

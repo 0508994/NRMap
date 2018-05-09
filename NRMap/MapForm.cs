@@ -68,7 +68,7 @@ namespace NRMap
             _mapBox.Map.Layers.Add(layer);
 
             // Zoom for the first one only
-            if (_mapBox.Map.Layers.Count == 2)
+            if (_mapBox.Map.Layers.Count == 2 || _mapBox.Map.Layers.Count == 1)
                 _mapBox.Map.ZoomToExtents();
             _mapBox.Refresh();
         }
@@ -296,16 +296,24 @@ namespace NRMap
             }
         }
 
-        #endregion
-
-        // TODO:
-        private void _btnAdvanceQ_Click(object sender, EventArgs e)
+        private void BtnAdvanceQ_Click(object sender, EventArgs e)
         {
             SpatialQueriesForm sqf = new SpatialQueriesForm();
             try
             {
-                //_controller.OnAdvanceQuery(null, null, null, null, System.Drawing.Color.Aqua, 0, null);
                 sqf.ShowDialog();
+                if (sqf.DialogResult == DialogResult.OK)
+                {
+                    double dWithin = 0;
+                    if (sqf.OpCode == Constants.dWithin && !Double.TryParse(sqf.DWithinDistance, out dWithin))
+                    {
+                        MessageBox.Show("Input only numerical values for distance allowed.");
+                        sqf.Dispose();
+                        return;
+                    }
+                    _controller.OnAdvanceQuery(sqf.SourceLayer, sqf.TargetLayer,
+                        sqf.DefinitionQuery, sqf.OpCode, dWithin);
+                }
             }
             catch (Exception exception)
             {
@@ -317,5 +325,9 @@ namespace NRMap
                 sqf.Dispose();
             }
         }
+
+        #endregion
+
+
     }
 }

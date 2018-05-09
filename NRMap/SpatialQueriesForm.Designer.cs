@@ -45,10 +45,8 @@
             this._rbInter = new System.Windows.Forms.RadioButton();
             this._rbWithin = new System.Windows.Forms.RadioButton();
             this._rbDwithin = new System.Windows.Forms.RadioButton();
-            this._btnSetColor = new System.Windows.Forms.Button();
             this._btnExecute = new System.Windows.Forms.Button();
             this._btnCancel = new System.Windows.Forms.Button();
-            this._colorPicker = new System.Windows.Forms.ColorDialog();
             this._gbSL.SuspendLayout();
             this._gbTL.SuspendLayout();
             this._gbOp.SuspendLayout();
@@ -73,13 +71,13 @@
             this._rbSLWaters.Name = "_rbSLWaters";
             this._rbSLWaters.Size = new System.Drawing.Size(59, 17);
             this._rbSLWaters.TabIndex = 2;
-            this._rbSLWaters.TabStop = true;
             this._rbSLWaters.Text = "Waters";
             this._rbSLWaters.UseVisualStyleBackColor = true;
             // 
             // _rbSLNR
             // 
             this._rbSLNR.AutoSize = true;
+            this._rbSLNR.Checked = true;
             this._rbSLNR.Location = new System.Drawing.Point(7, 60);
             this._rbSLNR.Name = "_rbSLNR";
             this._rbSLNR.Size = new System.Drawing.Size(41, 17);
@@ -95,7 +93,6 @@
             this._rbSLRoads.Name = "_rbSLRoads";
             this._rbSLRoads.Size = new System.Drawing.Size(56, 17);
             this._rbSLRoads.TabIndex = 0;
-            this._rbSLRoads.TabStop = true;
             this._rbSLRoads.Text = "Roads";
             this._rbSLRoads.UseVisualStyleBackColor = true;
             // 
@@ -118,7 +115,6 @@
             this._rbTLWaters.Name = "_rbTLWaters";
             this._rbTLWaters.Size = new System.Drawing.Size(59, 17);
             this._rbTLWaters.TabIndex = 5;
-            this._rbTLWaters.TabStop = true;
             this._rbTLWaters.Text = "Waters";
             this._rbTLWaters.UseVisualStyleBackColor = true;
             // 
@@ -129,13 +125,13 @@
             this._rbTLNR.Name = "_rbTLNR";
             this._rbTLNR.Size = new System.Drawing.Size(41, 17);
             this._rbTLNR.TabIndex = 4;
-            this._rbTLNR.TabStop = true;
             this._rbTLNR.Text = "NR";
             this._rbTLNR.UseVisualStyleBackColor = true;
             // 
             // _rbTLRoads
             // 
             this._rbTLRoads.AutoSize = true;
+            this._rbTLRoads.Checked = true;
             this._rbTLRoads.Location = new System.Drawing.Point(9, 37);
             this._rbTLRoads.Name = "_rbTLRoads";
             this._rbTLRoads.Size = new System.Drawing.Size(56, 17);
@@ -149,9 +145,9 @@
             this._rtbSQuery.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._rtbSQuery.Location = new System.Drawing.Point(12, 254);
             this._rtbSQuery.Name = "_rtbSQuery";
-            this._rtbSQuery.Size = new System.Drawing.Size(228, 96);
+            this._rtbSQuery.Size = new System.Drawing.Size(228, 125);
             this._rtbSQuery.TabIndex = 2;
-            this._rtbSQuery.Text = "";
+            this._rtbSQuery.Text = "sl.fclass=\'cave_entrance\' and tl.fclass=\'primary\'";
             // 
             // _gbOp
             // 
@@ -176,7 +172,6 @@
             this._rbCrosses.Name = "_rbCrosses";
             this._rbCrosses.Size = new System.Drawing.Size(62, 17);
             this._rbCrosses.TabIndex = 12;
-            this._rbCrosses.TabStop = true;
             this._rbCrosses.Text = "Crosses";
             this._rbCrosses.UseVisualStyleBackColor = true;
             // 
@@ -187,7 +182,6 @@
             this._rbTouches.Name = "_rbTouches";
             this._rbTouches.Size = new System.Drawing.Size(67, 17);
             this._rbTouches.TabIndex = 11;
-            this._rbTouches.TabStop = true;
             this._rbTouches.Text = "Touches";
             this._rbTouches.UseVisualStyleBackColor = true;
             // 
@@ -206,7 +200,6 @@
             this._rbOverlaps.Name = "_rbOverlaps";
             this._rbOverlaps.Size = new System.Drawing.Size(67, 17);
             this._rbOverlaps.TabIndex = 9;
-            this._rbOverlaps.TabStop = true;
             this._rbOverlaps.Text = "Overlaps";
             this._rbOverlaps.UseVisualStyleBackColor = true;
             // 
@@ -217,7 +210,6 @@
             this._rbInter.Name = "_rbInter";
             this._rbInter.Size = new System.Drawing.Size(71, 17);
             this._rbInter.TabIndex = 8;
-            this._rbInter.TabStop = true;
             this._rbInter.Text = "Intersects";
             this._rbInter.UseVisualStyleBackColor = true;
             // 
@@ -228,13 +220,13 @@
             this._rbWithin.Name = "_rbWithin";
             this._rbWithin.Size = new System.Drawing.Size(55, 17);
             this._rbWithin.TabIndex = 7;
-            this._rbWithin.TabStop = true;
             this._rbWithin.Text = "Within";
             this._rbWithin.UseVisualStyleBackColor = true;
             // 
             // _rbDwithin
             // 
             this._rbDwithin.AutoSize = true;
+            this._rbDwithin.Checked = true;
             this._rbDwithin.Location = new System.Drawing.Point(111, 32);
             this._rbDwithin.Name = "_rbDwithin";
             this._rbDwithin.Size = new System.Drawing.Size(63, 17);
@@ -242,16 +234,6 @@
             this._rbDwithin.TabStop = true;
             this._rbDwithin.Text = "DWithin";
             this._rbDwithin.UseVisualStyleBackColor = true;
-            // 
-            // _btnSetColor
-            // 
-            this._btnSetColor.Location = new System.Drawing.Point(12, 356);
-            this._btnSetColor.Name = "_btnSetColor";
-            this._btnSetColor.Size = new System.Drawing.Size(228, 23);
-            this._btnSetColor.TabIndex = 4;
-            this._btnSetColor.Text = "SetResultColor";
-            this._btnSetColor.UseVisualStyleBackColor = true;
-            this._btnSetColor.Click += new System.EventHandler(this.BtnSetColor_Click);
             // 
             // _btnExecute
             // 
@@ -278,7 +260,6 @@
             this.ClientSize = new System.Drawing.Size(252, 419);
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnExecute);
-            this.Controls.Add(this._btnSetColor);
             this.Controls.Add(this._gbOp);
             this.Controls.Add(this._rtbSQuery);
             this.Controls.Add(this._gbTL);
@@ -316,10 +297,8 @@
         private System.Windows.Forms.RadioButton _rbInter;
         private System.Windows.Forms.RadioButton _rbWithin;
         private System.Windows.Forms.RadioButton _rbDwithin;
-        private System.Windows.Forms.Button _btnSetColor;
         private System.Windows.Forms.Button _btnExecute;
         private System.Windows.Forms.Button _btnCancel;
         private System.Windows.Forms.RadioButton _rbCrosses;
-        private System.Windows.Forms.ColorDialog _colorPicker;
     }
 }

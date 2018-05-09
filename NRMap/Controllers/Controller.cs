@@ -381,49 +381,30 @@ namespace NRMap.Controllers
         }
 
         public void OnAdvanceQuery(string sourceTable, string targetTable, string definitionQuery,
-            System.Drawing.Color resultColor, int opCode, IList<double> additionalParams)
+            int opCode, double additionalParam)
         {
-            //SharpMap.Data.Providers.PostGIS postGisProv = new
-            //    SharpMap.Data.Providers.PostGIS(Constants.connStr, Constants.watersTable, Constants.geomName, Constants.idName)
-            //{
-            //    DefinitionQuery = "_ST_Crosses("+Constants.geomName+", ST_GeomFromText('POLYGON((170 50,170 72,-130 72,-130 50,170 50))', 4326) )"
-            //};
-
-            //SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
-            //postGisProv.Open();
-            ////
-            //postGisProv.ExecuteIntersectionQuery(postGisProv.GetExtents(), fds);
-            //postGisProv.Close();
-
-            //System.Windows.Forms.MessageBox.Show(fds.Tables[0].Rows.Count.ToString());
-            //_view.DataGridView = fds.Tables[0];
-
-            SharpMap.Data.FeatureDataSet fds = new SharpMap.Data.FeatureDataSet();
+            System.Data.DataSet ds = new System.Data.DataSet();
 
             PostGISCustom pgs = new PostGISCustom(Constants.connStr, Constants.geomName);
-            //string query = "select *, ST_AsBinary(geom) as sharpmap_tempgeometry from " + Constants.roadsTable + " where fclass = 'primary'";
 
-            //pgs.QuerySQL = query;
+            pgs.BuildRelationQuery(sourceTable, targetTable, definitionQuery, opCode, additionalParam);
+            IList<IGeometry> geoms = pgs.ExecuteCustomQuery(ds);
 
-            pgs.BuildDWithinQuery(Constants.roadsTable, Constants.watersTable, "sl.fclass='primary' and tl.fclass='river'", 0.2);
-            pgs.ExecuteCustomQuery(fds);
 
-            _view.DataGridView = fds.Tables[0];
-
-            IList<IGeometry> geoms = new List<IGeometry>();
-
-            foreach (SharpMap.Data.FeatureDataRow fdr in fds.Tables[0].Rows)
-                geoms.Add(fdr.Geometry);
-
-            VectorLayer testLayer = new VectorLayer("manista")
+            VectorLayer queryLayer = new VectorLayer(Constants.queryLayerName)
             {
-                DataSource = new SharpMap.Data.Providers.GeometryProvider(geoms)
+                DataSource = new SharpMap.Data.Providers.GeometryProvider(geoms),
+                SRID = 4326
             };
-            testLayer.SRID = 4326;
-            _view.AddLayer(testLayer);
-            _view.AddLayer(testLayer);
 
-            
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                OnRemoveLayer(Constants.queryLayerName);
+                OnRemoveLayer(Constants.queryLabelName);
+
+                _view.DataGridView = ds.Tables[0];
+                _view.AddLayer(queryLayer);
+            }
         }
         #endregion
     }

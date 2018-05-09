@@ -389,7 +389,7 @@
             this._btnAdvanceQ.TabIndex = 23;
             this._btnAdvanceQ.Text = "Advance Queries";
             this._btnAdvanceQ.UseVisualStyleBackColor = true;
-            this._btnAdvanceQ.Click += new System.EventHandler(this._btnAdvanceQ_Click);
+            this._btnAdvanceQ.Click += new System.EventHandler(this.BtnAdvanceQ_Click);
             // 
             // _btnRouting
             // 

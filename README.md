@@ -3,7 +3,7 @@ Jednostavna GIS aplikacija za menadžment prirodnih resursa Srbije. Projekat je 
 
  Korišćene tehnologije su:
  - SharpMap - biblioteka za geogorafska mapiranja. Izvor: https://github.com/SharpMap 
- - PostGIS ekstenzija za PostgreSQL bazu podataka namenjena za čuvanje i operacije nad geografskim podacima.
+ - PostGIS ekstenzija za PostgreSQL bazu podataka namenjena za čuvanje i operacije nad geografskim podacima. Izvor: https://postgis.net/
  
 Aplikacija radi sa tri vektorska sloja: vode, prirodni resursi, i putevi, koji se čuvaju u PostGIS bazi. Pored dodavanja i brisanja slojeva moguća je selekcija entiteta aktivnog sloja klikom miša ili pomoću *Bounding Box* selekcije. Takođe je moguće izvršavati upite na osnovu nekog tematskog atributa aktivnog sloja, izvršavanje prostornih upita između slojeva, kao i rutiranje po mreži puteva pomoću Dijkstrinog algoritma. Slike ekrana za neke od slučajeva korišćenja date su u nastavku.
 

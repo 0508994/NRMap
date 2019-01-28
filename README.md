@@ -11,7 +11,7 @@ Slike ekrana za neke od slučajeva korišćenja date su u nastavku.
 ![alt text](https://raw.githubusercontent.com/0508994/NRMap/master/img/nrmap_query_layer.png)
 
 ## Primer korišćenja: Prostorni upiti
-<p> align="center" 
+<p align="center"> 
     <img src="https://raw.githubusercontent.com/0508994/NRMap/master/img/nrmap_sq.png" />
 </p>
 

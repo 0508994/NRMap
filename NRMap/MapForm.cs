@@ -40,7 +40,6 @@ namespace NRMap
 
         public DataTable DataGridView
         {
-            // never used
             get
             {
                 return (DataTable)_dataGridView.DataSource;
@@ -53,7 +52,6 @@ namespace NRMap
 
         }
 
-        // Uselles
         public void AddTiledLayerAsBackground()
         {
             _mapBox.Map.BackgroundLayer.Add(new SharpMap.Layers.TileAsyncLayer(
@@ -200,7 +198,7 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
-                MessageBox.Show("Couldn't remove the layer.");
+                MessageBox.Show("Couldn't remove layer.");
             }
         }
 
@@ -214,7 +212,7 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
-                MessageBox.Show("Couldn't remove the layer.");
+                MessageBox.Show("Couldn't remove layer.");
             }
         }
 
@@ -228,7 +226,7 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
-                MessageBox.Show("Couldn't remove the layer.");
+                MessageBox.Show("Couldn't remove layer.");
             }
         }
 
@@ -294,7 +292,7 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
-                MessageBox.Show("Couldn't remove the layer.");
+                MessageBox.Show("Couldn't remove layer.");
             }
         }
 
@@ -309,7 +307,7 @@ namespace NRMap
                     double dWithin = 0;
                     if (sqf.OpCode == Constants.dWithin && !Double.TryParse(sqf.DWithinDistance, out dWithin))
                     {
-                        MessageBox.Show("Input only numerical values for distance allowed.");
+                        MessageBox.Show("Only numerical values for distance allowed.");
                         sqf.Dispose();
                         return;
                     }
@@ -367,7 +365,9 @@ namespace NRMap
             catch (Exception exception)
             {
                 Console.Write(exception.Message);
+#if DEBUG
                 MessageBox.Show(exception.ToString());
+#endif
             }
         }
         #endregion

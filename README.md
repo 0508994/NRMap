@@ -1,5 +1,5 @@
 # NRMap
-Jednostavna GIS aplikacija za menadžment prirodnih resursa Srbije. Projekat je realizovan u okviru predmeta Geoografski Informacioni Sistemi na Elektronskom fakultetu. 
+Jednostavna GIS aplikacija za menadžment prirodnih resursa Srbije. Projekat je realizovan u okviru predmeta Geografski Informacioni Sistemi na Elektronskom fakultetu. 
 
  Korišćene tehnologije su:
  - SharpMap - biblioteka za geogorafska mapiranja. Izvor: https://github.com/SharpMap 
